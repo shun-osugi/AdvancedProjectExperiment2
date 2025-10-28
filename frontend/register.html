@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>避難所名簿登録</title>
+</head>
+
+<body>
+    <!-- Flaskから渡された shelter_id を表示 -->
+    <h1>避難所名簿登録</h1>
+    <p>現在の避難所ID: <span id="shelter-display">{{ shelter_id }}</span></p>
+
+    <form id="registration-form">
+        <label for="name">氏名:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <button type="submit">登録</button>
+    </form>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

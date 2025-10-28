@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
-    <title>避難所名簿登録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>避難所名簿自動登録システム</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
-
 <body>
-    <!-- Flaskから渡された shelter_id を表示 -->
-    <h1>避難所名簿登録</h1>
-    <p>現在の避難所ID: <span id="shelter-display">{{ shelter_id }}</span></p>
 
-    <form id="registration-form">
-        <label for="name">氏名:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        <button type="submit">登録</button>
-    </form>
+    <header>
+        <h1>避難所名簿自動登録システム</h1>
+    </header>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <main>
+        <h2>ようこそ</h2>
+        <p>ご希望の操作を選んでください。</p>
+
+        <nav class="navigation-menu">
+            <ul>
+                <li>
+                    <a href="register.html" class="btn btn-primary">避難所に到着・登録する</a>
+                </li>
+
+                <li>
+                    <a href="shelter_list.html" class="btn btn-secondary">避難所の一覧・混雑状況を見る</a>
+                </li>
+
+                <li>
+                    <a href="search.html" class="btn btn-secondary">安否情報を検索する</a>
+                </li>
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 先進プロジェクト実験2</p>
+    </footer>
+
 </body>
-
 </html>
