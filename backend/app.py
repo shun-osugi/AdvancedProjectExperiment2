@@ -1,8 +1,7 @@
 import os
 from flask import Flask, request, jsonify, render_template
-from dotenv import load_dotenv # 先頭に移動
+from dotenv import load_dotenv 
 
-# .envファイルを読み込む (Firebase初期化より先に)
 load_dotenv() 
 
 # Firebaseの初期化とロジック
@@ -22,7 +21,7 @@ db = firestore.client()
 app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
 
 
-# テスト用のルート(コメントアウト外して動作確認に使ってください)
+# テスト用のルート(テスト完了後に削除予定)
 @app.route('/')
 def hello():
     return 'Hello, Firebase!'
