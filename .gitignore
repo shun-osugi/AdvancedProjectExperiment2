@@ -21,3 +21,5 @@ build/
 
 # Firebase設定ファイル
 advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json
+
+.DS_Store
