@@ -183,3 +183,117 @@ body {
     color: #fd7e14; /* 安否確認アイコンの色 */
     background-color: #fff4e8; /* 安否確認アイコンの背景色 */
 }
+
+/* --- 登録ページ (register.html) のスタイル --- */
+.form-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 800px; /* フォームの最大幅 */
+    margin: 40px auto; /* 上下に余白、左右は自動で中央 */
+    padding: 30px 40px;
+    box-sizing: border-box;
+}
+
+.form-container h1 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.form-container p {
+    font-size: 0.95em;
+    color: #555;
+    text-align: center;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* 必須マーク */
+.required-mark {
+    color: #d9534f; /* 赤色 */
+    font-size: 0.9em;
+    margin-left: 2px;
+}
+
+/* フォームの2列レイアウト */
+.form-row {
+    display: flex;
+    gap: 20px; /* 左右の隙間 */
+}
+
+.form-group {
+    margin-bottom: 20px;
+    flex: 1; /* 2列レイアウト時に均等に幅を取る */
+}
+
+.form-group label {
+    display: block; /* ラベルをブロック要素に */
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+/* フォームの入力欄 */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa; /* 入力欄の背景色 */
+    box-sizing: border-box; /* paddingを含めて幅を計算 */
+}
+
+.form-group .form-text {
+    font-size: 0.85em;
+    color: #666;
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+/* ビーコンID入力欄の囲み */
+.beacon-fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.beacon-fieldset legend {
+    font-weight: bold;
+    padding: 0 10px;
+    margin-left: 5px;
+}
+
+/* 登録ボタン */
+.btn-submit {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.1em;
+    cursor: pointer;
+    background-color: #007bff; /* トップページの青に合わせる */
+    transition: background-color 0.3s;
+}
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+/* JSが結果を表示する欄 */
+#result-message {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+}

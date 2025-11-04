@@ -1,76 +1,92 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
-    <title>避難所名簿登録</title>
-</head>
-
-<body>
-    <!-- Flaskから渡された shelter_id を表示 -->
-    <h1>避難所名簿登録</h1>
-    <p>現在の避難所ID: <span id="shelter-display">{{ shelter_id }}</span></p>
-
-    <form id="registration-form">
-        <label for="name">氏名:</label><!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>避難所名簿登録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>利用者情報登録</title>
+    <link rel="stylesheet" href="style.css">
     </head>
 <body>
-    <h1>避難所名簿登録</h1>
 
-    <p>現在の避難所: <span id="shelter-display">[読み込み中...]</span></p>
+    <header class="navbar">
+        <div class="container">
+            <h1>防災・安否確認システム</h1>
+        </div>
+    </header>
 
-    <form id="registration-form">
+    <main class="container">
+        <div class="form-container">
+            <h1>利用者情報登録</h1>
+            <p>緊急時の安否確認のため、以下の情報を登録してください。<br><span class="required-mark">*</span>は必須項目です。</p>
+            
+            <form id="registration-form">
+                
+                <input type="hidden" id="shelter-id" name="shelter_id">
 
-        <fieldset>
-            <legend>個人情報</legend>
-            <div>
-                <label for="name">氏名:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div>
-                <label for="age">年齢:</label>
-                <input type="number" id="age" name="age">
-            </div>
-            <div>
-                <label for="occupation">職業:</label>
-                <input type="text" id="occupation" name="occupation">
-            </div>
-            <div>
-                <label for="phone">電話番号:</label>
-                <input type="tel" id="phone" name="phone">
-            </div>
-            <div>
-                <label for="emergency_contact">緊急連絡先:</label>
-                <input type="tel" id="emergency_contact" name="emergency_contact">
-            </div>
-        </fieldset>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="last-name">姓 <span class="required-mark">*</span></label>
+                        <input type="text" id="last-name" name="last_name" placeholder="山田" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="first-name">名 <span class="required-mark">*</span></label>
+                        <input type="text" id="first-name" name="first_name" placeholder="太郎" required>
+                    </div>
+                </div>
 
-        <fieldset>
-            <legend>ビーコン$\text{ID}$</legend>
-            <div>
-                <label for="beacon-id">ビーコン$\text{ID}$:</label>
-                <input type="text" id="beacon-id" name="beacon_id" 
-                       placeholder="配布されたビーコンの番号" required>
-            </div>
-        </fieldset>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="last-name-kana">セイ</label>
+                        <input type="text" id="last-name-kana" name="last_name_kana" placeholder="ヤマダ">
+                    </div>
+                    <div class="form-group">
+                        <label for="first-name-kana">メイ</label>
+                        <input type="text" id="first-name-kana" name="first_name_kana" placeholder="タロウ">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input type="email" id="email" name="email" placeholder="example@email.com">
+                </div>
 
-        <button type="submit">登録</button>
-    </form>
+                <div class="form-group">
+                    <label for="phone">電話番号 <span class="required-mark">*</span></label>
+                    <input type="tel" id="phone" name="phone" placeholder="090-1234-5678" required>
+                </div>
 
-    <div id="result-message"></div>
+                <div class="form-group">
+                    <label for="postal-code">郵便番号</label>
+                    <input type="text" id="postal-code" name="postal_code" placeholder="123-4567">
+                </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
-        <input type="text" id="name" name="name" required><br><br>
-        <button type="submit">登録</button>
-    </form>
+                <div class="form-group">
+                    <label for="address">住所</label>
+                    <input type="text" id="address" name="address" placeholder="東京都渋谷区...">
+                </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
+                <div class="form-group">
+                    <label for="emergency-contact">緊急連絡先</label>
+                    <input type="tel" id="emergency-contact" name="emergency_contact" placeholder="03-1234-5678">
+                </div>
 
+                <fieldset class="beacon-fieldset">
+                    <legend>ビーコンIDの登録</legend>
+                    <div class="form-group">
+                        <label for="beacon-id">ビーコンID <span class="required-mark">*</span></label>
+                        <input type="text" id="beacon-id" name="beacon_id" placeholder="配布されたビーコンの番号" required>
+                        <p class="form-text">避難所で配布されたビーコン（またはスマートフォンアプリ）に表示されている$\text{ID}$を入力してください。これが本人確認の鍵となります。</p>
+                    </div>
+                </fieldset>
+
+                <button type="submit" class="btn-submit">登録する</button>
+
+                <div id="result-message"></div>
+
+            </form>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    </body>
 </html>
