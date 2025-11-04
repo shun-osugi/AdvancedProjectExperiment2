@@ -18,3 +18,6 @@ __pycache__/
 # パッケージング/ビルド
 dist/
 build/
+
+# Firebase設定ファイル
+advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json

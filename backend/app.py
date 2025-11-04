@@ -1,13 +1,57 @@
-from flask import Flask, request, jsonify, render_template
 import os
-from dotenv import load_dotenv
-# Firebaseの初期化とロジックはこの後に実装
-# import firebase_admin
+from flask import Flask, request, jsonify, render_template
+from dotenv import load_dotenv # 先頭に移動
 
-load_dotenv()  # .envファイルを読み込む
+# .envファイルを読み込む (Firebase初期化より先に)
+load_dotenv() 
+
+# Firebaseの初期化とロジック
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+# --- Firebaseの初期化 ---
+cred_path = os.path.join(os.path.dirname(__file__), '../advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json') 
+cred = credentials.Certificate(cred_path)
+
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
 
 app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
 
+
+# --- ルート定義 ---
+
+@app.route('/')
+def hello():
+    return 'Hello, Firebase!'
+
+# (テスト) Firestoreへのデータ追加
+@app.route('/add')
+def add_data():
+    try:
+        doc_ref = db.collection('users').document('alovelace')
+        doc_ref.set({
+            'first': 'Ada',
+            'last': 'Lovelace',
+            'born': 1815
+        })
+        return jsonify({"success": True, "message": "データを追加しました"}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+# (テスト) Firestoreからのデータ取得
+@app.route('/get')
+def get_data():
+    try:
+        users_ref = db.collection('users')
+        docs = users_ref.stream() 
+        results = [doc.to_dict() for doc in docs] # リスト内包表記で簡潔に
+        return jsonify({"success": True, "data": results}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 # ラズパイからの検知データを受け付けるAPI
 @app.route("/api/detect_beacon", methods=["POST"])
