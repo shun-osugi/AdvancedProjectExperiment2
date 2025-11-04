@@ -124,16 +124,16 @@ Firebaseへの接続には、**サービスアカウントの秘密鍵 (JSONフ�
     * （ファイル名: `advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json`）
 
 2.  **ファイルの配置:**
-    * 入手したJSONファイルを、**`backend` フォルダの中**（`app.py` と同じ場所）に配置してください。
+    * 入手したJSONファイルを、**プロジェクトフォルダの直下**に配置してください。
 
     ```
     プロジェクトルート/
     ├── backend/
-    │   ├── app.py
-    │   └── advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json  <--- (ここに入手したファイルを置く)
+    │   └── app.py
     ├── venv/
     ├── Readme.md
-    └── requirements.txt
+    ├── requirements.txt
+    └── advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json  <--- (ここに入手したファイルを置く)
     ```
 
 3.  **`.gitignore` の確認 (必須！)**
