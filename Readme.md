@@ -6,13 +6,13 @@
 
 ## ⚙️ 技術スタック
 
-| 分野 | 技術 | 詳細 |
-| :--- | :--- | :--- |
-| **Python Version** | 3.12.9 | **全員で統一する必須バージョン** |
-| **バックエンド** | Flask (Python) | APIサーバーを担当 |
-| **パッケージ管理** | uv | 高速な仮想環境とライブラリ管理ツール |
-| **データベース** | Firebase Firestore | Admin SDK経由でデータ永続化 |
-| **ゲートウェイ** | Raspberry Pi | BLEビーコンの検知を担当 |
+| 分野               | 技術               | 詳細                                 |
+| :----------------- | :----------------- | :----------------------------------- |
+| **Python Version** | 3.12.9             | **全員で統一する必須バージョン**     |
+| **バックエンド**   | Flask (Python)     | APIサーバーを担当                    |
+| **パッケージ管理** | uv                 | 高速な仮想環境とライブラリ管理ツール |
+| **データベース**   | Firebase Firestore | Admin SDK経由でデータ永続化          |
+| **ゲートウェイ**   | Raspberry Pi       | BLEビーコンの検知を担当              |
 
 ---
 
@@ -109,3 +109,76 @@ python backend/app.py
 
 * **URL**: `http://127.0.0.1:5001/api/detect_beacon`
 * **結果**: **`405 (Method Not Allowed)`** が表示される。
+
+
+## 🔥 Firebaseのセットアップと接続確認 (11/04 追記)
+
+バックエンドサーバー（Flask）からデータベース（Firestore）に接続するための追加設定です。
+
+### 1. Firebase 秘密鍵の設定 (最重要)
+
+Firebaseへの接続には、**サービスアカウントの秘密鍵 (JSONファイル)** が必要です。
+
+1.  **秘密鍵の入手:**
+    * 秘密鍵のJSONファイルをSlackのDMに送信します。
+    * （ファイル名: `advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json`）
+
+2.  **ファイルの配置:**
+    * 入手したJSONファイルを、**`backend` フォルダの中**（`app.py` と同じ場所）に配置してください。
+
+    ```
+    プロジェクトルート/
+    ├── backend/
+    │   ├── app.py
+    │   └── advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json  <--- (ここに入手したファイルを置く)
+    ├── venv/
+    ├── Readme.md
+    └── requirements.txt
+    ```
+
+3.  **`.gitignore` の確認 (必須！)**
+    * 秘密鍵ファイルが誤ってGitにコミットされるのを防ぐため、プロジェクトルートの `.gitignore` に秘密鍵のファイル名が記載されているか**必ず確認**してください。
+
+    ```gitignore
+    # .gitignore (プロジェクトルートに配置)
+
+    # Firebase
+    # キーファイル名は環境によって異なる可能性があるため、自分のファイル名に置き換えてください
+    advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json
+    ```
+
+---
+
+### 2. 依存関係のトラブルシューティング (`packaging`)
+以下のコマンドで `packaging` を明示的に **venv へ**インストールしてください。
+
+```bash
+# venv を有効化した状態で実行
+uv pip install packaging
+```
+
+### 3. Firestore 接続確認
+
+`app.py` には、Firestoreとの接続をテストするためのAPIが用意されています。コメントアウトを外して実行してください．
+
+1.  **Flaskサーバーの起動:**
+    `venv` を有効化した状態で、プロジェクトルートからサーバーを起動します。
+
+    ```bash
+    # venv が有効化された状態で、プロジェクトルートから実行
+    python backend/app.py
+    ```
+
+2.  **接続テストの実行:**
+    サーバーが起動したら（`Running on http://127.0.0.1:5001/` と表示されたら）、Webブラウザで以下のURLに順番にアクセスします。
+
+    * **① 書き込みテスト:**
+        `http://127.0.0.1:5001/add`
+        → ブラウザに `{"success": true, "message": "データを追加しました"}` と表示されればOKです。
+
+    * **② 読み取りテスト:**
+        `http://127.0.0.1:5001/get`
+        → ブラウザに `{"success": true, "data": [{"born": 1815, ...}]}` のように、`data` が表示されればOKです。
+
+    * **③ Firebaseコンソールでの最終確認:**
+        Firebaseコンソールにログインし、「Firestore Database」に `users` コレクションが作成され、`alovelace` ドキュメントが追加されていることを確認してください。

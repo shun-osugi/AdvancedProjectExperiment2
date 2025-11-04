@@ -10,7 +10,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # --- Firebaseの初期化 ---
-cred_path = os.path.join(os.path.dirname(__file__), '../advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json') 
+cred_path = os.path.join(os.path.dirname(__file__), '/advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json') 
 cred = credentials.Certificate(cred_path)
 
 if not firebase_admin._apps:
@@ -21,9 +21,8 @@ db = firestore.client()
 
 app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
 
-
-# --- ルート定義 ---
-
+'''
+# テスト用のルート(コメントアウト外して動作確認に使ってください)
 @app.route('/')
 def hello():
     return 'Hello, Firebase!'
@@ -52,6 +51,8 @@ def get_data():
         return jsonify({"success": True, "data": results}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+'''
+
 
 # ラズパイからの検知データを受け付けるAPI
 @app.route("/api/detect_beacon", methods=["POST"])
