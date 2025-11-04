@@ -22,7 +22,7 @@ def receive_beacon_data():
 @app.route("/register/<shelter_id>")
 def register_page(shelter_id):
     # index.htmlをレンダリングし、shelter_idをJavaScriptに渡す
-    return render_template("index.html", shelter_id=shelter_id)
+    return render_template("registration-complete.html", shelter_id=shelter_id)
 
 
 if __name__ == "__main__":
