@@ -1,0 +1,185 @@
+/* style.css */
+
+/* --- 基本設定 --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    background-color: #f8f9fa; /* 背景色 */
+    color: #333;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- 1. ヘッダー --- */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 0;
+}
+.navbar .container {
+    display: flex;
+    align-items: center;
+}
+.navbar h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #d9534f; /* 防災の赤色 */
+}
+/* .nav-icon { height: 30px; margin-right: 10px; } */
+
+
+/* --- 2.1. メインタイトル (Hero) --- */
+.hero {
+    text-align: center;
+    padding: 40px 0;
+}
+.hero h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+.hero p {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* --- 2.2. 3つの機能カード --- */
+.action-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* カード間の隙間 */
+    flex-wrap: wrap; /* スマホなどで折り返し */
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    box-sizing: border-box;
+
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.card h3 {
+    font-size: 1.4em;
+    margin-top: 5px; /* アイコンがある場合は調整 */
+    margin-bottom: 10px;
+}
+.card p {
+    color: #666;
+    font-size: 0.95em;
+    min-height: 40px; /* 高さを揃える */
+}
+/* .card-icon { font-size: 48px; } */
+
+/* カードごとの色 */
+/* .card-blue .card-icon { color: #007bff; } */
+/* .card-green .card-icon { color: #28a745; } */
+/* .card-orange .card-icon { color: #fd7e14; } */
+
+/* --- ボタン共通スタイル --- */
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    width: 100%; /* ボタン幅をカードに合わせる */
+    box-sizing: border-box; /* paddingを含めて幅を計算 */
+}
+
+/* ボタンごとの色 */
+.btn-blue { background-color: #007bff; }
+.btn-green { background-color: #28a745; }
+.btn-orange { background-color: #fd7e14; }
+
+.btn-blue:hover { background-color: #0056b3; }
+.btn-green:hover { background-color: #1e7e34; }
+.btn-orange:hover { background-color: #c75a00; }
+
+/* --- 2.3. 2つの情報ボックス --- */
+.info-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.info-box {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    width: 45%; /* 2列レイアウト */
+    min-width: 300px; /* 最小幅 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    /* 枠線の色を上部だけ太くするデザイン */
+    border-top: 5px solid;
+
+    box-sizing: border-box;
+
+}
+.info-box h3 {
+    margin-top: 0;
+    font-size: 1.3em;
+}
+.info-box ul {
+    padding-left: 20px;
+    line-height: 1.7;
+    color: #555;
+}
+
+/* ボックスごとの色 */
+.box-red { border-color: #dc3545; }
+.box-blue { border-color: #007bff; }
+
+/* --- アイコンのスタイル --- */
+.card-icon {
+    font-size: 40px; /* アイコンの大きさ */
+    /* スクリーンショットのデザインはアイコンが
+      円形の背景で囲まれています。
+      それを再現する場合、以下のCSSを追加します。
+    */
+    width: 70px;
+    height: 70px;
+    
+    border-radius: 50%; /* 円形にする */
+    background-color: #f0f0f0; /* 背景色 */
+    margin-bottom: 10px;
+    
+    display: inline-flex;       /* Flexコンテナとして動作 */
+    align-items: center;         /* 垂直方向（上下）の中央揃え */
+    justify-content: center;     /* 水平方向（左右）の中央揃え */
+
+    line-height: 1; /* アイコンフォントのズレ補正 */
+}
+
+/* アイコンごとの色 */
+.icon-blue {
+    color: #007bff; /* 新規登録アイコンの色 */
+    background-color: #e6f2ff; /* 新規登録アイコンの背景色 */
+}
+.icon-green {
+    color: #28a745; /* 避難所アイコンの色 */
+    background-color: #eaf6ec; /* 避難所アイコンの背景色 */
+}
+.icon-orange {
+    color: #fd7e14; /* 安否確認アイコンの色 */
+    background-color: #fff4e8; /* 安否確認アイコンの背景色 */
+}

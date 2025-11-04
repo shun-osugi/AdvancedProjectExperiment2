@@ -2,40 +2,75 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>避難所名簿自動登録システム</title>
-    <link rel="stylesheet" href="style.css"> 
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>防災・安否確認システム</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
 <body>
 
-    <header>
-        <h1>避難所名簿自動登録システム</h1>
+    <header class="navbar">
+        <div class="container">
+            <h1>防災・安否確認システム</h1>
+        </div>
     </header>
 
-    <main>
-        <h2>ようこそ</h2>
-        <p>ご希望の操作を選んでください。</p>
+    <main class="container">
 
-        <nav class="navigation-menu">
-            <ul>
-                <li>
-                    <a href="register.html" class="btn btn-primary">避難所に到着・登録する</a>
-                </li>
+        <section class="hero">
+            <h2>緊急時の安全を守る</h2>
+            <p>災害時の避難所情報の確認や、大切な人の安否確認ができるシステムです。<br>まずは利用者登録を行ってください。</p>
+        </section>
 
-                <li>
-                    <a href="shelter_list.html" class="btn btn-secondary">避難所の一覧・混雑状況を見る</a>
-                </li>
+        <section class="action-cards">
+            <div class="card card-blue">
+                <span class="material-icons card-icon icon-blue">person_add</span>
 
-                <li>
-                    <a href="search.html" class="btn btn-secondary">安否情報を検索する</a>
-                </li>
-            </ul>
-        </nav>
+                <h3>新規登録</h3>
+                <p>利用者情報を登録してUser IDを取得</p>
+                <a href="register.html" class="btn btn-blue">登録する</a>
+            </div>
+
+            <div class="card card-green">
+                <span class="material-icons card-icon icon-green">location_on</span>
+
+                <h3>避難所情報</h3>
+                <p>近くの避難所と混雑状況を確認</p>
+                <a href="shelter_list.html" class="btn btn-green">確認する</a>
+            </div>
+
+            <div class="card card-orange">
+                <span class="material-icons card-icon icon-orange">groups</span>
+                
+                <h3>安否確認</h3>
+                <p>他のユーザーの安否状況を検索</p>
+                <a href="search.html" class="btn btn-orange">検索する</a>
+            </div>
+        </section>
+
+        <section class="info-grid">
+            <div class="info-box box-red">
+                <h3>緊急時の行動</h3>
+                <ul>
+                    <li>まず自分の身の安全を確保してください</li>
+                    <li>避難所情報を確認し、必要に応じて避難してください</li>
+                    <li>安全が確保できたら、安否状況を登録してください</li>
+                    <li>家族や知人の安否を確認してください</li>
+                </ul>
+            </div>
+
+            <div class="info-box box-blue">
+                <h3>システムの使い方</h3>
+                <ul>
+                    <li>利用者登録でUser IDを取得</li>
+                    <li>User IDは安否確認時に必要です</li>
+                    <li>避難所の混雑状況はリアルタイムで更新されます</li>
+                    <li>名前やUser IDで他の方の安否を検索できます</li>
+                </ul>
+            </div>
+        </section>
+
     </main>
-
-    <footer>
-        <p>&copy; 2025 先進プロジェクト実験2</p>
-    </footer>
-
 </body>
 </html>

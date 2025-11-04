@@ -12,7 +12,60 @@
     <p>現在の避難所ID: <span id="shelter-display">{{ shelter_id }}</span></p>
 
     <form id="registration-form">
-        <label for="name">氏名:</label>
+        <label for="name">氏名:</label><!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>避難所名簿登録</title>
+    </head>
+<body>
+    <h1>避難所名簿登録</h1>
+
+    <p>現在の避難所: <span id="shelter-display">[読み込み中...]</span></p>
+
+    <form id="registration-form">
+
+        <fieldset>
+            <legend>個人情報</legend>
+            <div>
+                <label for="name">氏名:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="age">年齢:</label>
+                <input type="number" id="age" name="age">
+            </div>
+            <div>
+                <label for="occupation">職業:</label>
+                <input type="text" id="occupation" name="occupation">
+            </div>
+            <div>
+                <label for="phone">電話番号:</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            <div>
+                <label for="emergency_contact">緊急連絡先:</label>
+                <input type="tel" id="emergency_contact" name="emergency_contact">
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>ビーコン$\text{ID}$</legend>
+            <div>
+                <label for="beacon-id">ビーコン$\text{ID}$:</label>
+                <input type="text" id="beacon-id" name="beacon_id" 
+                       placeholder="配布されたビーコンの番号" required>
+            </div>
+        </fieldset>
+
+        <button type="submit">登録</button>
+    </form>
+
+    <div id="result-message"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
         <input type="text" id="name" name="name" required><br><br>
         <button type="submit">登録</button>
     </form>
