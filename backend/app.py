@@ -1,15 +1,18 @@
 import os
 from flask import Flask, request, jsonify, render_template
-from dotenv import load_dotenv 
+from dotenv import load_dotenv
 
-load_dotenv() 
+load_dotenv()
 
 # Firebaseの初期化とロジック
 import firebase_admin
 from firebase_admin import credentials, firestore
 
 # --- Firebaseの初期化 ---
-cred_path = os.path.join(os.path.dirname(__file__), '../advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json') 
+cred_path = os.path.join(
+    os.path.dirname(__file__),
+    "../advancedprojectexperiment2-firebase-adminsdk-fbsvc-999f94b825.json",
+)
 cred = credentials.Certificate(cred_path)
 
 if not firebase_admin._apps:
@@ -22,44 +25,84 @@ app = Flask(__name__, static_folder="../frontend/static", template_folder="../fr
 
 
 # テスト用のルート(テスト完了後に削除予定)
-@app.route('/')
+@app.route("/")
 def hello():
-    return 'Hello, Firebase!'
+    return "Hello, Firebase!"
+
 
 # (テスト) Firestoreへのデータ追加
-@app.route('/add')
+@app.route("/add")
 def add_data():
     try:
-        doc_ref = db.collection('users').document('alovelace')
-        doc_ref.set({
-            'first': 'Ada',
-            'last': 'Lovelace',
-            'born': 1815
-        })
+        doc_ref = db.collection("users").document("alovelace")
+        doc_ref.set({"first": "Ada", "last": "Lovelace", "born": 1815})
         return jsonify({"success": True, "message": "データを追加しました"}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
+
 # (テスト) Firestoreからのデータ取得
-@app.route('/get')
+@app.route("/get")
 def get_data():
     try:
-        users_ref = db.collection('users')
-        docs = users_ref.stream() 
-        results = [doc.to_dict() for doc in docs] # リスト内包表記で簡潔に
+        users_ref = db.collection("users")
+        docs = users_ref.stream()
+        results = [doc.to_dict() for doc in docs]  # リスト内包表記で簡潔に
         return jsonify({"success": True, "data": results}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
 
-
 # ラズパイからの検知データを受け付けるAPI
 @app.route("/api/detect_beacon", methods=["POST"])
 def receive_beacon_data():
-    data = request.get_json()
-    # 【TODO: Firebaseに検知ログを保存するロジックを実装】
-    print(f"ラズパイからデータを受信: {data}")
-    return jsonify({"message": "OK"}), 200
+    """
+    ラズパイ(ゲートウェイ)からビーコン検知情報を受け取るAPI
+    ローカル版のログ機能と、タスク3のDB保存機能を実装
+    """
+    # 1. ローカル版の堅牢なリクエストチェック
+    if not request.is_json:
+        print("!!! [受信エラー] !!! リクエストがJSONではありません。")
+        return jsonify({"error": "Invalid request: JSON required"}), 400
+
+    data = request.json
+
+    # 2. ローカル版の詳細なprintロジック (コンソール確認用)
+    print("--- [ビーコン検知ログ受信] ---")
+    print(f"  ゲートウェイID: {data.get('gateway_id')}")
+    print(f"  UUID: {data.get('uuid')}")
+    print(f"  Major: {data.get('major')}")
+    print(f"  Minor: {data.get('minor')}")
+    print(f"  RSSI: {data.get('rssi')}")
+    print("-" * 30)
+
+    # 3. 【タスク3】Firebase (Firestore) への検知ログ保存
+    try:
+        # 保存するデータにサーバー側のタイムスタンプを追加
+        log_data = {
+            "gateway_id": data.get("gateway_id"),
+            "uuid": data.get("uuid"),
+            "major": data.get("major"),
+            "minor": data.get("minor"),
+            "rssi": data.get("rssi"),
+            # Firestoreのサーバータイムスタンプ (推奨)
+            "timestamp": firestore.SERVER_TIMESTAMP,
+        }
+
+        # 'beacon_logs' コレクションにドキュメントを自動IDで追加
+        # (コレクション名はここで指定)
+        db.collection("beacon_logs").add(log_data)
+
+        print("  [DB保存成功] Firestore 'beacon_logs' に書き込みました。")
+
+    except Exception as e:
+        print("!!! [DB保存エラー] !!! Firestoreへの書き込みに失敗しました。")
+        print(f"  エラー詳細: {e}")
+        # DBエラーが発生しても、検知自体は成功しているのでラズパイには成功を返す
+        pass
+
+    # 4. ローカル版の成功レスポンス
+    return jsonify({"status": "success", "received_data": data}), 200
 
 
 # Webアプリのフロントエンド表示（URL識別子を含む）
