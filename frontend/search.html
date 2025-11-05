@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安否確認検索</title>
+    
+    <link rel="stylesheet" href="static/search.css"> 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <main class="content-area">
+        
+        <a href="/" class="back-link">＜ トップに戻る</a>
+        
+        <div class="search-container">
+            <h2>安否確認検索</h2>
+            <p class="description">名前または User ID で他のユーザーの安否状況を検索できます。</p>
+
+            <div class="tab-navigation">
+                <button class="tab-item active" data-tab="name">名前で検索</button>
+                <button class="tab-item" data-tab="userid">User ID で検索</button>
+            </div>
+
+            <div class="tab-content-container">
+                <div id="name-content" class="tab-content active">
+                    <form id="name-search-form" onsubmit="return false;">
+                        <label for="name-input">氏名またはカナ</label>
+                        <input type="text" id="name-input" placeholder="山田太郎 または ヤマダタロウ">
+                    </form>
+                </div>
+                
+                <div id="userid-content" class="tab-content">
+                    <form id="userid-search-form" onsubmit="return false;">
+                        <label for="userid-input">User ID</label>
+                        <input type="text" id="userid-input" name="user_id" placeholder="例: U12345">
+                    </form>
+                </div>
+            </div>
+            
+            <button id="search-button" class="search-button">🔍 検索</button>
+
+            <div class="hints-section">
+                <strong>検索のヒント</strong>
+                <ul>
+                    <li>名前検索：漢字またはカタカナで検索できます</li>
+                    <li>User ID検索：登録時に発行されたIDで検索します</li>
+                    <li>部分一致で検索されます（例：「山田」で検索すると「山田太郎」がヒット）</li>
+                </ul>
+            </div>
+
+        </div> <div id="results-container" class="results-container">
+            </div>
+
+    </main>
+    
+    <script src="static/search.js"></script> 
+</body>
+</html>

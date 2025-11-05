@@ -24,12 +24,6 @@ db = firestore.client()
 app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
 
 
-# テスト用のルート(テスト完了後に削除予定)
-@app.route("/")
-def hello():
-    return "Hello, Firebase!"
-
-
 # (テスト) Firestoreへのデータ追加
 @app.route("/add")
 def add_data():
@@ -104,6 +98,24 @@ def receive_beacon_data():
     # 4. ローカル版の成功レスポンス
     return jsonify({"status": "success", "received_data": data}), 200
 
+# --- Webアプリのフロントエンド表示 ---
+
+@app.route("/")
+def index_page():
+    """トップページ (index.html) を表示"""
+    return render_template("index.html")
+
+
+@app.route("/search")
+def search_page():
+    """安否確認検索ページ (search.html) を表示"""
+    return render_template("search.html")
+
+
+@app.route("/shelter_list")
+def shelter_list_page():
+    """避難所一覧ページ (shelter_list.html) を表示"""
+    return render_template("shelter_list.html")
 
 # Webアプリのフロントエンド表示（URL識別子を含む）
 @app.route("/register/<shelter_id>")
