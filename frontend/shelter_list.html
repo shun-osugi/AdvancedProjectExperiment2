@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>近くの避難所一覧・混雑状況</title>
+    
+    <link rel="stylesheet" href="static/shelter_style.css">
+</head>
+<body>
+
+    <main class="container">
+        
+        <div class="page-controls">
+            <a href="/" class="back-link">＜ トップに戻る</a>
+            <span class="sort-order">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 14.5C5 14.5 5.5 16.5 8 16.5C10.5 16.5 11 14.5 11 14.5M5 14.5C4.5 12 4 10.5 4 8C4 5.23858 6.23858 3 9 3C11.7614 3 14 5.23858 14 8C14 10.5 13.5 12 13 14.5M5 14.5L13 14.5M9 3V1M9 13C9 14.1046 8.10457 15 7 15M17.5 15.5L15 21L12.5 15.5M15 21V11" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                現在地から近い順
+            </span>
+        </div>
+
+        <div id="shelter-list-container">
+            <p id="loading-message">現在地を取得し、近くの避難所を探しています...</p>
+        </div>
+
+        <div class="legend-card">
+            <h4>混雑状況の目安</h4>
+            <div class="legend-item">
+                <span class="status-tag status-green">空きあり</span>
+                <span>収容率 70% 未満</span>
+            </div>
+            <div class="legend-item">
+                <span class="status-tag status-yellow">避難</span>
+                <span>収容率 70-95%</span>
+            </div>
+            <div class="legend-item">
+                <span class="status-tag status-red">満員</span>
+                <span>収容率 95% 以上</span>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script src="static/shelter_list.js"></script>
+
+</body>
+</html>

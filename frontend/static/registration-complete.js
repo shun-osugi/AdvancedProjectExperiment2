@@ -29,7 +29,7 @@ copyBtn.addEventListener("click", async () => {
 // ===== 各ボタンの遷移処理 =====
 document.getElementById("openShelters").onclick = () => {
   const uid = encodeURIComponent(userIdEl.textContent.trim());
-  location.href = `/shelters?user_id=${uid}`;
+  location.href = `/shelter_list?user_id=${uid}`;
 };
 
 document.getElementById("openSearch").onclick = () => {

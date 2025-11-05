@@ -1,0 +1,270 @@
+/* --- 検索ページ固有の変数 --- */
+:root {
+    --primary-color: #007bff; 
+    --danger-color: #dc3545;  
+    --success-color: #28a745;
+    --secondary-color: #6c757d;
+    --warning-color: #ffc107;
+    --text-color: #212529;
+    --text-light: #495057;
+    --bg-light: #f4f7f6;      
+    --bg-white: #ffffff;
+    --border-color: #dee2e6;
+}
+
+/* --- 基本設定 --- */
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px; 
+}
+
+/* --- メインコンテンツ --- */
+.content-area {
+    max-width: 800px; 
+    margin: 0 auto;
+}
+
+/* --- .back-link (style.css の定義と合わせる) --- */
+.back-link {
+    text-decoration: none;
+    color: #007bff; 
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 16px; 
+    font-size: 1em;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
+
+/* --- 5) 検索コンテナ --- */
+.search-container {
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    padding: 24px 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color); 
+}
+
+.search-container h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.description {
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin-bottom: 24px;
+}
+
+/* タブコンテナ (グレーの背景) */
+.tab-navigation {
+    display: flex;
+    background-color: var(--bg-light); 
+    border-radius: 8px;               
+    padding: 4px;                     
+    border-bottom: none;              
+}
+
+/* タブ要素 (名前 / User ID) */
+.tab-item {
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 700;
+    padding: 10px 16px;         
+    border: none;               
+    background-color: transparent; 
+    color: var(--text-light);   
+    border-radius: 6px;         
+    cursor: pointer;
+    flex-grow: 1;               
+    text-align: center;         
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* アクティブなタブ (Figmaのデザイン) */
+.tab-item.active {
+    background-color: var(--bg-white); 
+    color: var(--text-color);        
+    border-bottom-color: transparent;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+}
+
+/* フォーム */
+.tab-content {
+    display: none; 
+    padding-top: 24px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-family: inherit;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-sizing: border-box; 
+}
+
+/* 検索ボタン */
+.search-button {
+    width: 100%;
+    background-color: var(--danger-color);
+    color: white;
+    font-size: 1.1em;
+    font-weight: 700;
+    font-family: inherit;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background-color: #c82333;
+}
+
+/* ヒント */
+.hints-section {
+    margin-top: 24px;
+    font-size: 0.9em;
+    color: var(--primary-color);
+}
+.hints-section strong {
+    color: var(--text-color);
+}
+.hints-section ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+/* --- 6) 検索結果エリア --- */
+.results-container {
+    /* このコンテナ自体はマージンを持たず、中のカードが持つ */
+}
+
+/* 検索結果カード (成功時) */
+.result-card {
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+    margin-top: 30px; /* 検索フォームとの間隔 */
+    margin-bottom: 16px;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.result-name {
+    font-size: 1.5em; 
+    font-weight: 700;
+    color: var(--text-color);
+    word-break: break-all; 
+}
+
+/* 避難状況バッジ (共通) */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 16px; 
+    font-size: 0.9em;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0; 
+    margin-left: 10px;
+}
+
+.status-badge.status-evacuated {
+    background-color: var(--success-color); /* 避難中 (緑) */
+}
+.status-badge.status-left {
+    background-color: var(--secondary-color); /* 退出 (グレー) */
+}
+.status-badge.status-unknown {
+    background-color: var(--warning-color); /* 不明 (黄) */
+    color: var(--text-color); 
+}
+
+/* 詳細項目 (避難所・住所など) */
+.result-details p {
+    margin: 10px 0;
+    font-size: 1em;
+    color: var(--text-light); 
+    display: flex;
+    flex-wrap: wrap; 
+}
+.result-details p strong {
+    color: var(--text-color); 
+    min-width: 120px;       
+    font-weight: 700;
+    flex-shrink: 0;
+    padding-right: 10px; /* ラベルと値の間に隙間 */
+}
+.result-details p span {
+    font-weight: 500;
+    word-break: break-all; /* 住所などが長い場合に対応 */
+}
+
+
+/* エラーメッセージ (Figmaデザイン) */
+.error-message-card {
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    padding: 40px 24px; /* 上下に余白を多めに */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+    margin-top: 30px; /* 検索フォームとの間隔 */
+    text-align: center;
+}
+
+.error-icon {
+    margin-bottom: 16px;
+}
+/* JS側で挿入するSVGアイコンのサイズと色 */
+.error-icon svg {
+    width: 56px;  /* アイコンサイズ */
+    height: 56px;
+}
+.error-icon svg path {
+    stroke: #adb5bd; /* アイコンの色 (薄いグレー) */
+    stroke-width: 1.5; /* アイコンの線の太さを調整 */
+}
+
+.error-title {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 8px 0;
+}
+
+.error-description {
+    font-size: 0.95em;
+    color: var(--text-light); /* 薄めの文字色 */
+    margin: 0;
+    line-height: 1.6;
+}
