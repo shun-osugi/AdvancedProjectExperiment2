@@ -5,14 +5,16 @@
     --primary-color: #007bff;
     --text-color: #212529;
     --text-light: #495057;
-    --bg-light: #f4f7f6; /* サイト全体の薄い背景色 */
+    --bg-light: #f4f7f6;
+    /* サイト全体の薄い背景色 */
     --bg-white: #ffffff;
     --border-color: #e0e0e0;
 }
 
 body {
-    margin: 0; /* ブラウザ標準のマージンをリセット */
-    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+    margin: 0;
+    /* ブラウザ標準のマージンをリセット */
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background-color: var(--bg-light);
     color: var(--text-color);
     line-height: 1.6;
@@ -20,26 +22,39 @@ body {
 
 /* 共通ヘッダー (index.html用) */
 .main-header {
-    background-color: #34495e; /* 濃い青色の背景 */
-    color: white; /* 文字色を白に */
-    padding: 24px 30px; /* 内側の余白 (上下24px, 左右30px) */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #34495e;
+    /* 濃い青色の背景 */
+    color: white;
+    /* 文字色を白に */
+    padding: 24px 30px;
+    /* 内側の余白 (上下24px, 左右30px) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .main-header h1 {
-    margin: 0 0 4px 0; /* 下側に少しマージンを設ける */
-    font-size: 1.6rem; /* 文字サイズ */
+    margin: 0 0 4px 0;
+    /* 下側に少しマージンを設ける */
+    font-size: 1.6rem;
+    /* 文字サイズ */
 }
+
 .main-header p {
-    margin: 0; /* マージンなし */
-    font-size: 0.95rem; /* やや小さめの文字サイズ */
-    opacity: 0.9; /* 少し透明にして、メインの見出しより目立たなくする */
+    margin: 0;
+    /* マージンなし */
+    font-size: 0.95rem;
+    /* やや小さめの文字サイズ */
+    opacity: 0.9;
+    /* 少し透明にして、メインの見出しより目立たなくする */
 }
 
 /* 共通メインコンテナ (index.html, shelter_list.html用) */
 .container {
-    padding: 24px; /* コンテンツの内側に余白 */
-    max-width: 900px; /* PC表示でもコンテンツが広がりすぎないよう最大幅を指定 */
-    margin: 0 auto; /* コンテナ自体をページの中央に配置 */
+    padding: 24px;
+    /* コンテンツの内側に余白 */
+    max-width: 900px;
+    /* PC表示でもコンテンツが広がりすぎないよう最大幅を指定 */
+    margin: 0 auto;
+    /* コンテナ自体をページの中央に配置 */
 }
 
 .container h2 {
@@ -51,39 +66,56 @@ body {
 
 /* --- トップページのナビゲーション (index.html用) --- */
 nav.main-navigation ul {
-    list-style: none; /* リストの黒丸 (・) を非表示に */
-    padding-left: 0; /* 左側のパディングをリセット */
+    list-style: none;
+    /* リストの黒丸 (・) を非表示に */
+    padding-left: 0;
+    /* 左側のパディングをリセット */
     margin: 0;
 }
+
 nav.main-navigation li {
-    margin-bottom: 16px; /* 各リスト項目の下に間隔を空ける */
-    background: var(--bg-white); /* 背景色を白に */
-    border-radius: 8px; /* 角を丸くする */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* 薄い影をつけて立体感を出す */
+    margin-bottom: 16px;
+    /* 各リスト項目の下に間隔を空ける */
+    background: var(--bg-white);
+    /* 背景色を白に */
+    border-radius: 8px;
+    /* 角を丸くする */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    /* 薄い影をつけて立体感を出す */
     border: 1px solid var(--border-color);
     transition: box-shadow 0.2s, transform 0.2s;
 }
 
 nav.main-navigation li:hover {
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* ホバーで影を濃く */
-    transform: translateY(-2px); /* 少し浮かせる */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    /* ホバーで影を濃く */
+    transform: translateY(-2px);
+    /* 少し浮かせる */
 }
 
 nav.main-navigation a {
-    display: block; /* リンクエリアをクリック可能に */
-    padding: 20px 24px; /* 内側の余白 */
-    font-size: 1.2rem; /* 文字サイズ */
-    text-decoration: none; /* リンクの下線を消す */
-    color: var(--primary-color); /* リンクの文字色 (青) */
-    font-weight: 700; /* 文字の太さ (太め) */
+    display: block;
+    /* リンクエリアをクリック可能に */
+    padding: 20px 24px;
+    /* 内側の余白 */
+    font-size: 1.2rem;
+    /* 文字サイズ */
+    text-decoration: none;
+    /* リンクの下線を消す */
+    color: var(--primary-color);
+    /* リンクの文字色 (青) */
+    font-weight: 700;
+    /* 文字の太さ (太め) */
 }
 
 nav.main-navigation a:hover {
-    color: #0056b3; /* ホバーで色を濃く */
+    color: #0056b3;
+    /* ホバーで色を濃く */
 }
 
 nav.main-navigation a strong {
-    display: block; /* 改行させる */
+    display: block;
+    /* 改行させる */
 }
 
 nav.main-navigation a small {
@@ -100,8 +132,9 @@ nav.main-navigation a small {
     font-weight: 500;
     font-size: 1em;
     display: inline-block;
-    margin-bottom: 16px; 
+    margin-bottom: 16px;
 }
+
 .container .back-link:hover {
     text-decoration: underline;
 }
@@ -110,131 +143,394 @@ nav.main-navigation a small {
 
 /* ページ上部 (戻る/並び替え) */
 .page-controls {
-    display: flex; /* 子要素 (戻るリンク, 並び替え) を横並びにする */
-    justify-content: space-between; /* 左右の要素を両端に寄せる */
-    align-items: center; /* 要素の上下位置を中央に揃える */
-    padding-bottom: 16px; /* 下側に余白を多めに取る */
+    display: flex;
+    /* 子要素 (戻るリンク, 並び替え) を横並びにする */
+    justify-content: space-between;
+    /* 左右の要素を両端に寄せる */
+    align-items: center;
+    /* 要素の上下位置を中央に揃える */
+    padding-bottom: 16px;
+    /* 下側に余白を多めに取る */
 }
+
 /* .back-link は上記で定義済み */
 
 .sort-order {
-    display: flex; /* アイコンとテキストを横並びにする */
-    align-items: center; /* アイコンとテキストの上下位置を中央に揃える */
-    gap: 6px; /* アイコンとテキストの間に隙間を空ける */
-    font-size: 0.9rem; /* 文字サイズを少し小さく */
-    color: #333; /* 文字色 (濃いグレー) */
+    display: flex;
+    /* アイコンとテキストを横並びにする */
+    align-items: center;
+    /* アイコンとテキストの上下位置を中央に揃える */
+    gap: 6px;
+    /* アイコンとテキストの間に隙間を空ける */
+    font-size: 0.9rem;
+    /* 文字サイズを少し小さく */
+    color: #333;
+    /* 文字色 (濃いグレー) */
 }
+
 .sort-order svg {
-    stroke: #333; /* SVGアイコンの線の色を指定 */
+    stroke: #333;
+    /* SVGアイコンの線の色を指定 */
 }
 
 /* 避難所カード・凡例カードの共通スタイル */
-.shelter-card, .legend-card {
-    background-color: #ffffff; /* カードの背景色 (白) */
-    border-radius: 8px; /* 角を丸くする */
-    border: 1px solid #e0e0e0; /* 薄いグレーの枠線 */
-    margin-bottom: 16px; /* カードの下に間隔を空ける */
-    overflow: hidden; /* 角丸の外側にはみ出す要素を隠す */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 薄い影 */
+.shelter-card,
+.legend-card {
+    background-color: #ffffff;
+    /* カードの背景色 (白) */
+    border-radius: 8px;
+    /* 角を丸くする */
+    border: 1px solid #e0e0e0;
+    /* 薄いグレーの枠線 */
+    margin-bottom: 16px;
+    /* カードの下に間隔を空ける */
+    overflow: hidden;
+    /* 角丸の外側にはみ出す要素を隠す */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    /* 薄い影 */
 }
 
 /* カードヘッダー (避難所名とステータスタグ) */
 .card-header {
-    display: flex; /* 子要素 (見出し, タグ) を横並びにする */
-    justify-content: space-between; /* 左右の要素を両端に寄せる */
-    align-items: center; /* 要素の上下位置を中央に揃える */
-    padding: 16px; /* 内側の余白 */
-    border-bottom: 1px solid #f0f0f0; /* カード本体との区切り線 */
+    display: flex;
+    /* 子要素 (見出し, タグ) を横並びにする */
+    justify-content: space-between;
+    /* 左右の要素を両端に寄せる */
+    align-items: center;
+    /* 要素の上下位置を中央に揃える */
+    padding: 16px;
+    /* 内側の余白 */
+    border-bottom: 1px solid #f0f0f0;
+    /* カード本体との区切り線 */
 }
+
 .card-header h3 {
-    margin: 0; /* 見出しの標準マージンをリセット */
-    font-size: 1.25rem; /* 見出しの文字サイズ */
+    margin: 0;
+    /* 見出しの標準マージンをリセット */
+    font-size: 1.25rem;
+    /* 見出しの文字サイズ */
 }
 
 /* カード本体 (住所や混雑状況) */
 .card-body {
-    padding: 16px; /* 内側の余白 */
+    padding: 16px;
+    /* 内側の余白 */
 }
 
 /* 情報行 (アイコン + テキスト) */
 .info-line {
-    display: flex; /* アイコンとテキストを横並びにする */
-    align-items: center; /* 上下位置を中央に揃える */
-    gap: 8px; /* アイコンとテキストの間に隙間を空ける */
-    margin: 0 0 12px 0; /* 下側にマージンを取る */
-    color: #555; /* やや薄めの文字色 */
+    display: flex;
+    /* アイコンとテキストを横並びにする */
+    align-items: center;
+    /* 上下位置を中央に揃える */
+    gap: 8px;
+    /* アイコンとテキストの間に隙間を空ける */
+    margin: 0 0 12px 0;
+    /* 下側にマージンを取る */
+    color: #555;
+    /* やや薄めの文字色 */
 }
 
 /* ステータスタグ (空きあり、満員など) */
 .status-tag {
-    padding: 4px 8px; /* タグの内側の余白 */
-    border-radius: 4px; /* タグの角を丸くする */
-    font-size: 0.8rem; /* 小さめの文字サイズ */
-    font-weight: bold; /* 太字にする */
-    color: white; /* 文字色は白 (背景色で状態を示すため) */
+    padding: 4px 8px;
+    /* タグの内側の余白 */
+    border-radius: 4px;
+    /* タグの角を丸くする */
+    font-size: 0.8rem;
+    /* 小さめの文字サイズ */
+    font-weight: bold;
+    /* 太字にする */
+    color: white;
+    /* 文字色は白 (背景色で状態を示すため) */
 }
-.status-green { background-color: #28a745; } /* 空きあり (緑) */
-.status-yellow { background-color: #ffc107; } /* 避難 (黄) */
-.status-red { background-color: #dc3545; } /* 満員 (赤) */
+
+.status-green {
+    background-color: #28a745;
+}
+
+/* 空きあり (緑) */
+.status-yellow {
+    background-color: #ffc107;
+}
+
+/* 避難 (黄) */
+.status-red {
+    background-color: #dc3545;
+}
+
+/* 満員 (赤) */
 
 
 /* 混雑状況セクション (プログレスバー) */
 .congestion-section {
-    margin-top: 16px; /* 上の要素 (住所など) との間隔 */
+    margin-top: 16px;
+    /* 上の要素 (住所など) との間隔 */
 }
+
 .congestion-header {
-    display: flex; /* 「混雑状況」と「xx / xx人」を横並びにする */
-    justify-content: space-between; /* 両端に寄せる */
-    align-items: center; /* 上下位置を中央に揃える */
-    margin-bottom: 8px; /* プログレスバーとの間隔 */
+    display: flex;
+    /* 「混雑状況」と「xx / xx人」を横並びにする */
+    justify-content: space-between;
+    /* 両端に寄せる */
+    align-items: center;
+    /* 上下位置を中央に揃える */
+    margin-bottom: 8px;
+    /* プログレスバーとの間隔 */
 }
+
 .congestion-header .info-line {
-    margin-bottom: 0; /* info-lineの標準マージンを上書き (不要なため) */
+    margin-bottom: 0;
+    /* info-lineの標準マージンを上書き (不要なため) */
 }
+
 .congestion-header span {
-    font-size: 0.9rem; /* 文字サイズ */
-    font-weight: 500; /* やや太め */
-    color: #333; /* 濃いグレー */
+    font-size: 0.9rem;
+    /* 文字サイズ */
+    font-weight: 500;
+    /* やや太め */
+    color: #333;
+    /* 濃いグレー */
 }
 
 /* プログレスバーの背景 */
 .progress-bar-container {
-    width: 100%; /* 幅を親要素いっぱいに */
-    height: 10px; /* バーの高さ */
-    background-color: #e9ecef; /* バーの背景色 (薄いグレー) */
-    border-radius: 5px; /* 角を丸くする */
-    overflow: hidden; /* 中のバーがはみ出さないようにする */
+    width: 100%;
+    /* 幅を親要素いっぱいに */
+    height: 10px;
+    /* バーの高さ */
+    background-color: #e9ecef;
+    /* バーの背景色 (薄いグレー) */
+    border-radius: 5px;
+    /* 角を丸くする */
+    overflow: hidden;
+    /* 中のバーがはみ出さないようにする */
 }
+
 /* プログレスバー本体 (色がついている部分) */
 .progress-bar {
-    height: 100%; /* 高さを背景コンテナに合わせる */
-    transition: width 0.5s ease-in-out; /* 幅が変わる時にアニメーションさせる */
+    height: 100%;
+    /* 高さを背景コンテナに合わせる */
+    transition: width 0.5s ease-in-out;
+    /* 幅が変わる時にアニメーションさせる */
 }
+
 /* 混雑バーの色 (タグの色と連動) */
-.progress-green { background-color: #28a745; }
-.progress-yellow { background-color: #ffc107; }
-.progress-red { background-color: #dc3545; }
+.progress-green {
+    background-color: #28a745;
+}
+
+.progress-yellow {
+    background-color: #ffc107;
+}
+
+.progress-red {
+    background-color: #dc3545;
+}
 
 /* 目安カード (凡例) */
 .legend-card {
-    padding: 16px; /* 内側の余白 */
+    padding: 16px;
+    /* 内側の余白 */
 }
+
 .legend-card h4 {
-    margin: 0 0 12px 0; /* 見出しの下にマージン */
+    margin: 0 0 12px 0;
+    /* 見出しの下にマージン */
 }
+
 .legend-item {
-    display: flex; /* タグと説明文を横並びにする */
-    align-items: center; /* 上下位置を中央に揃える */
-    gap: 10px; /* タグと説明文の間の隙間 */
-    margin-bottom: 8px; /* 各項目の下に間隔 */
+    display: flex;
+    /* タグと説明文を横並びにする */
+    align-items: center;
+    /* 上下位置を中央に揃える */
+    gap: 10px;
+    /* タグと説明文の間の隙間 */
+    margin-bottom: 8px;
+    /* 各項目の下に間隔 */
 }
+
 .legend-item span {
-    font-size: 0.9rem; /* やや小さめの文字サイズ */
+    font-size: 0.9rem;
+    /* やや小さめの文字サイズ */
 }
 
 /* 読み込み中メッセージ */
 #loading-message {
-    text-align: center; /* テキストを中央揃えに */
-    color: #777; /* やや薄い文字色 */
-    padding: 20px; /* 上下に余白 */
+    text-align: center;
+    /* テキストを中央揃えに */
+    color: #777;
+    /* やや薄い文字色 */
+    padding: 20px;
+    /* 上下に余白 */
+}
+
+body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ページコントロール（戻るボタンなど） */
+.page-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.sort-order {
+    font-size: 0.9rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* 避難所カードのデザイン */
+.shelter-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: transform 0.2s;
+}
+
+.shelter-card:active {
+    transform: scale(0.98);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.shelter-name {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.distance-badge {
+    background-color: #eef2f5;
+    color: #555;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.address {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0 0 15px 0;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.capacity-info {
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.capacity-info .value {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* ステータスタグ（凡例と合わせる） */
+.status-tag {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.status-green {
+    background-color: #28a745;
+    /* 緑 */
+}
+
+.status-yellow {
+    background-color: #ffc107;
+    /* 黄 */
+    color: #333;
+    /* 黄色の背景なら文字は黒が見やすい */
+}
+
+.status-red {
+    background-color: #dc3545;
+    /* 赤 */
+}
+
+/* ボタン類 */
+.map-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+.action-btn {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+/* 凡例カード */
+.legend-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.legend-card h4 {
+    margin-top: 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    gap: 10px;
+}
+
+.error-msg {
+    color: #d9534f;
+    text-align: center;
+    padding: 20px;
 }
