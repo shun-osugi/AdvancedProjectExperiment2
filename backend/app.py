@@ -182,6 +182,11 @@ def shelter_list_page():
     """避難所一覧ページ (shelter_list.html) を表示"""
     return render_template("shelter_list.html")
 
+@app.route("/register")
+def register_page_no_id():
+    """登録ページ (register.html) を表示"""
+    return render_template("register.html")
+
 # Webアプリのフロントエンド表示（URL識別子を含む）
 @app.route("/register/<shelter_id>")
 def register_page(shelter_id):
