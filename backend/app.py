@@ -188,9 +188,9 @@ def register_page_no_id():
     return render_template("register.html")
 
 @app.route("/registration-complete")
-def register_completed_page():
-    """登録完了&ユーザーID表示ページを表示"""
+def registration_complete():
     return render_template("registration-complete.html")
+
 
 # Webアプリのフロントエンド表示（URL識別子を含む）
 @app.route("/register/<shelter_id>")
