@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
+import math
 
 load_dotenv()
 
@@ -23,7 +24,7 @@ db = firestore.client()
 
 app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
 
-
+'''''
 # (テスト) Firestoreへのデータ追加
 @app.route("/add")
 def add_data():
@@ -45,7 +46,7 @@ def get_data():
         return jsonify({"success": True, "data": results}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
-
+'''
 
 # ラズパイからの検知データを受け付けるAPI
 @app.route("/api/detect_beacon", methods=["POST"])
@@ -97,6 +98,70 @@ def receive_beacon_data():
 
     # 4. ローカル版の成功レスポンス
     return jsonify({"status": "success", "received_data": data}), 200
+
+# 距離計算用の関数
+def calculate_distance(lat1, lng1, lat2, lng2):
+    R = 6371.0  # 地球の半径 (km)
+    
+    # ラジアンに変換
+    lat1_rad = math.radians(lat1)
+    lng1_rad = math.radians(lng1)
+    lat2_rad = math.radians(lat2)
+    lng2_rad = math.radians(lng2)
+    
+    dlat = lat2_rad - lat1_rad
+    dlng = lng2_rad - lng1_rad
+    
+    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlng / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    
+    distance = R * c
+    return distance
+
+# 近くの避難所を取得するAPI
+@app.route("/api/shelters", methods=["GET"])
+def get_nearby_shelters():
+    try:
+        # 1. クエリパラメータの取得
+        current_lat = request.args.get("lat", type=float)
+        current_lng = request.args.get("lng", type=float)
+        radius_km = request.args.get("radius_km", default=5.0, type=float) # デフォルト5km
+
+        if current_lat is None or current_lng is None:
+            return jsonify({"error": "lat and lng are required"}), 400
+
+        # 2. Firestoreから全避難所を取得
+        # (注: FirestoreはGeoクエリが苦手なため、件数が少なければ全件取得してアプリ側でフィルタリングするのが一般的です)
+        docs = db.collection("shelters").stream()
+        
+        nearby_shelters = []
+        
+        for doc in docs:
+            data = doc.to_dict()
+            # データ内の lat, lng を取得
+            s_lat = data.get("lat")
+            s_lng = data.get("lng")
+            
+            if s_lat is None or s_lng is None:
+                continue
+
+            # 3. 距離計算
+            dist = calculate_distance(current_lat, current_lng, s_lat, s_lng)
+            
+            # 4. 半径以内ならリストに追加
+            if dist <= radius_km:
+                # フロント表示用に距離情報も追加しておくと親切です
+                data["distance_km"] = round(dist, 2) 
+                nearby_shelters.append(data)
+
+        # 距離が近い順にソート
+        nearby_shelters.sort(key=lambda x: x["distance_km"])
+
+        return jsonify(nearby_shelters), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 # --- Webアプリのフロントエンド表示 ---
 
