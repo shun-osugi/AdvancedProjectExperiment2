@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (res.ok) {
                 // 成功したら register_complete.html に遷移
                 // Flask のテンプレートなら `"/register_complete"` にしてもOK
-                window.location.href = "register_complete.html";
+                window.location.href = "/registration-complete";
             } else {
                 showError(result, "エラー：" + (json.error || "不明なエラー"));
             }
