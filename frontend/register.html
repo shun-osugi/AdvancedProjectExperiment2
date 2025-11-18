@@ -1,96 +1,144 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>利用者情報登録</title>
-    <link rel="stylesheet" href="static/index.css">
+    <link rel="stylesheet" href="static/style.css">
 </head>
-
 <body>
 
-    <header class="navbar">
-        <div class="container">
-            <h1>防災・安否確認システム</h1>
-        </div>
-    </header>
+<header class="navbar">
+    <div class="container">
+        <h1>防災・安否確認システム</h1>
+    </div>
+</header>
 
-    <main class="container">
-        <div class="form-container">
-            <h1>利用者情報登録</h1>
-            <p>緊急時の安否確認のため、以下の情報を登録してください。<br><span class="required-mark">*</span>は必須項目です。</p>
+<main class="container">
+    <div class="form-container">
+        <h1>利用者情報登録</h1>
+        <p>緊急時の安否確認のため、以下の情報を登録してください。<br>
+            <span class="required-mark">*</span>は必須項目です。
+        </p>
+        
+        <form id="registration-form">
+            
+            <input type="hidden" id="shelter-id" name="shelter_id">
 
-            <form id="registration-form">
-
-                <input type="hidden" id="shelter-id" name="shelter_id">
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="last-name">姓 <span class="required-mark">*</span></label>
-                        <input type="text" id="last-name" name="last_name" placeholder="山田" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="first-name">名 <span class="required-mark">*</span></label>
-                        <input type="text" id="first-name" name="first_name" placeholder="太郎" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="last-name-kana">セイ</label>
-                        <input type="text" id="last-name-kana" name="last_name_kana" placeholder="ヤマダ">
-                    </div>
-                    <div class="form-group">
-                        <label for="first-name-kana">メイ</label>
-                        <input type="text" id="first-name-kana" name="first_name_kana" placeholder="タロウ">
-                    </div>
-                </div>
-
+            <!-- 氏名 -->
+            <div class="form-row">
                 <div class="form-group">
-                    <label for="email">メールアドレス</label>
-                    <input type="email" id="email" name="email" placeholder="example@email.com">
+                    <label for="last-name">姓 <span class="required-mark">*</span></label>
+                    <input type="text" id="last-name" name="last_name" placeholder="山田" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="phone">電話番号 <span class="required-mark">*</span></label>
-                    <input type="tel" id="phone" name="phone" placeholder="090-1234-5678" required>
+                    <label for="first-name">名 <span class="required-mark">*</span></label>
+                    <input type="text" id="first-name" name="first_name" placeholder="太郎" required>
                 </div>
+            </div>
 
+            <!-- カナ -->
+            <div class="form-row">
                 <div class="form-group">
-                    <label for="postal-code">郵便番号</label>
-                    <input type="text" id="postal-code" name="postal_code" placeholder="123-4567">
+                    <label for="last-name-kana">セイ</label>
+                    <input type="text" id="last-name-kana" name="last_name_kana" placeholder="ヤマダ" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="address">住所</label>
-                    <input type="text" id="address" name="address" placeholder="東京都渋谷区...">
+                    <label for="first-name-kana">メイ</label>
+                    <input type="text" id="first-name-kana" name="first_name_kana" placeholder="タロウ" required>
                 </div>
+            </div>
 
+            <!-- メールアドレス -->
+            <div class="form-group">
+                <label for="email">メールアドレス</label>
+                <input type="email" id="email" name="email" placeholder="example@email.com">
+            </div>
+
+            <!-- 携帯電話 -->
+            <div class="form-group">
+                <label for="mobile-phone">携帯電話 <span class="required-mark">*</span></label>
+                <input type="tel" id="mobile-phone" name="mobile_phone" placeholder="090-1234-5678" required>
+            </div>
+
+            <!-- 緊急連絡先 -->
+            <div class="form-group">
+                <label for="emergency-contact">緊急連絡先 <span class="required-mark">*</span></label>
+                <input type="tel" id="emergency-contact" name="emergency_contact" placeholder="03-1234-5678" required>
+            </div>
+
+            <!-- 性別 -->
+            <div class="form-group">
+                <label for="gender">性別 <span class="required-mark">*</span></label>
+                <select id="gender" name="gender" required>
+                    <option value="">選択してください</option>
+                    <option value="male">男性</option>
+                    <option value="female">女性</option>
+                    <option value="other">その他</option>
+                </select>
+            </div>
+
+            <!-- 年齢 -->
+            <div class="form-group">
+                <label for="age">年齢 <span class="required-mark">*</span></label>
+                <input type="number" id="age" name="age" placeholder="20" required>
+            </div>
+
+            <!-- 生年月日 -->
+            <div class="form-group">
+                <label for="birth">生年月日</label>
+                <input type="date" id="birth" name="birth" required>
+            </div>
+
+            <!-- 住所 -->
+            <div class="form-group">
+                <label for="address">住所</label>
+                <input type="text" id="address" name="address" placeholder="東京都渋谷区...">
+            </div>
+
+            <!-- 職業 -->
+            <div class="form-group">
+                <label for="job">職業</label>
+                <input type="text" id="job" name="job" placeholder="会社員 / 学生など">
+            </div>
+
+            <!-- 避難ステータス -->
+            <div class="form-group">
+                <label for="status">避難ステータス <span class="required-mark">*</span></label>
+                <select id="status" name="status" required>
+                    <option value="">選択してください</option>
+                    <option value="evacuated">避難済み</option>
+                    <option value="not_evacuated">未避難</option>
+                    <option value="missing">所在不明</option>
+                </select>
+            </div>
+
+            <!-- 特記事項 -->
+            <div class="form-group">
+                <label for="notes">特記事項</label>
+                <input type="text" id="notes" name="notes" placeholder="アレルギー・持病など">
+            </div>
+
+            <!-- ビーコンID -->
+            <fieldset class="beacon-fieldset">
+                <legend>ビーコンIDの登録</legend>
                 <div class="form-group">
-                    <label for="emergency-contact">緊急連絡先</label>
-                    <input type="tel" id="emergency-contact" name="emergency_contact" placeholder="03-1234-5678">
+                    <label for="beacon-id">ビーコンID <span class="required-mark">*</span></label>
+                    <input type="text" id="beacon-id" name="beacon_id" placeholder="配布されたビーコンの番号" required>
+                    <p class="form-text">
+                        避難所で配布されたビーコン（またはスマートフォンアプリ）に表示されているIDを入力してください。
+                    </p>
                 </div>
+            </fieldset>
 
-                <fieldset class="beacon-fieldset">
-                    <legend>ビーコンIDの登録</legend>
-                    <div class="form-group">
-                        <label for="beacon-id">ビーコンID <span class="required-mark">*</span></label>
-                        <input type="text" id="beacon-id" name="beacon_id" placeholder="配布されたビーコンの番号" required>
-                        <p class="form-text">避難所で配布されたビーコン（またはスマートフォンアプリ）に表示されている$\text{ID}$を入力してください。これが本人確認の鍵となります。
-                        </p>
-                    </div>
-                </fieldset>
+            <button type="submit" class="btn-submit">登録する</button>
 
-                <button type="submit" class="btn-submit">登録する</button>
+            <div id="result-message"></div>
 
-                <div id="result-message"></div>
+        </form>
+    </div>
+</main>
 
-            </form>
-        </div>
-    </main>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
-
 </html>
