@@ -163,6 +163,89 @@ def get_nearby_shelters():
         return jsonify({"error": str(e)}), 500
 
 
+# 安否確認登録API
+@app.route("/api/search", methods=["GET"])
+def search_user():
+    try:
+        user_id = request.args.get("user_id")
+        name = request.args.get("name")
+        
+        users_ref = db.collection("users")
+        found_users = []
+
+        # 1. ユーザーの検索
+        if user_id:
+            # User IDで検索 (完全一致)
+            docs = users_ref.where("user_id", "==", user_id).stream()
+            found_users = [doc.to_dict() for doc in docs]
+            
+        elif name:
+            # 名前で検索 (姓 または 名 に一致するものを探す)
+            # FirestoreはOR検索が少し特殊なため、単純に2回クエリして結合します
+            
+            # last (姓) で検索
+            docs_last = users_ref.where("last", "==", name).stream()
+            results_last = [doc.to_dict() for doc in docs_last]
+            
+            # first (名) で検索
+            docs_first = users_ref.where("first", "==", name).stream()
+            results_first = [doc.to_dict() for doc in docs_first]
+
+            # 重複を除去して統合 (user_idをキーにする)
+            seen_ids = set()
+            for u in results_last + results_first:
+                if u.get("user_id") not in seen_ids:
+                    found_users.append(u)
+                    seen_ids.add(u.get("user_id"))
+        else:
+            return jsonify({"error": "Missing search parameter"}), 400
+
+        if not found_users:
+            return jsonify([]), 404
+
+        # 2. 整形と避難所情報の結合
+        response_list = []
+        
+        for user in found_users:
+            # 名前を結合 (姓 + 名)
+            full_name = f"{user.get('last', '')} {user.get('first', '')}".strip()
+            
+            # 日付の変換 (Firestore Timestamp -> UNIX float -> フロントで整形)
+            last_seen = user.get("updated_at")
+            if hasattr(last_seen, 'timestamp'):
+                last_seen_ts = last_seen.timestamp()
+            else:
+                last_seen_ts = None
+
+            # 避難所情報の取得
+            shelter_info = None
+            s_id = user.get("shelter_id")
+            if s_id:
+                # Firestoreからshelter情報を取得
+                s_doc = db.collection("shelters").document(s_id).get()
+                if s_doc.exists:
+                    s_data = s_doc.to_dict()
+                    shelter_info = {
+                        "shelter_id": s_id,
+                        "name": s_data.get("name"),
+                        "address": s_data.get("address")
+                    }
+
+            # レスポンス用オブジェクト作成
+            response_list.append({
+                "user_id": user.get("user_id"),
+                "name": full_name,
+                "status": user.get("status", "unknown"),
+                "shelter": shelter_info,
+                "last_seen_at": last_seen_ts
+            })
+
+        return jsonify(response_list), 200
+
+    except Exception as e:
+        print(f"Error in search: {e}")
+        return jsonify({"error": str(e)}), 500
+
 # --- Webアプリのフロントエンド表示 ---
 
 @app.route("/")
