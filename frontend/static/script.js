@@ -1,6 +1,32 @@
 // ===============================
 // 初期処理
 // ===============================
+
+// ===============================
+// Firebase / Firestore の設定
+// ===============================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+    getFirestore,
+    collection,
+    doc,
+    setDoc,
+    serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ★ここを自分の firebaseConfig に置き換える
+const firebaseConfig = {
+    apiKey: "AIzaSyCrNWrnm1XFc4PrUS8uO26kTZpjmTwEXaw",
+    authDomain: "advancedprojectexperiment2.firebaseapp.com",
+    projectId: "advancedprojectexperiment2",
+    storageBucket: "advancedprojectexperiment2.firebasestorage.app",
+    messagingSenderId: "1053843660005",
+    appId: "1:1053843660005:web:b2444dc5715d318fa9c80c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("registration-form");
     const result = document.getElementById("result-message");
@@ -19,20 +45,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const res = await submitToServer(data);
-            const json = await res.json();
+            
+            await saveUserToFirestore(data);
+            
+            //const res = await submitToServer(data);
+            //const json = await res.json();
 
-            if (res.ok) {
+            //if (res.ok) {
                 // 成功したら register_complete.html に遷移
                 // Flask のテンプレートなら `"/register_complete"` にしてもOK
-                window.location.href = `/registration-complete?user_id=${data.user_id}`;
-            } else {
-                showError(result, "エラー：" + (json.error || "不明なエラー"));
-            }
+            //    window.location.href = `/registration-complete?user_id=${data.user_id}`;
+            //} else {
+            //    showError(result, "エラー：" + (json.error || "不明なエラー"));
+            //}
+            //
+            window.location.href = `/registration-complete?user_id=${data.user_id}`;
 
         } catch (err) {
             console.error(err);
-            showError(result, "通信エラーが発生しました");
+            showError(result, "登録中にエラーが発生しました");
         }
     });
 });
@@ -103,16 +134,35 @@ function validate(data) {
     return null; // 問題なし
 }
 
+// ===============================
+// Firestore への保存
+// ===============================
+async function saveUserToFirestore(data) {
+    // user_id をドキュメントIDに使う例
+    const userRef = doc(collection(db, "users"), data.user_id);
 
-// ===============================
-// 3. サーバー（Flask）へ送信
-// ===============================
-function submitToServer(data) {
-    return fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    });
+    // Firestore に入れたくない項目があればここで削る
+    const firestoreData = {
+        shelter_id: data.shelter_id || null,
+        last_name: data.last_name,
+        first_name: data.first_name,
+        last_name_kana: data.last_name_kana,
+        first_name_kana: data.first_name_kana,
+        email: data.email || null,
+        mobile_phone: data.mobile_phone,
+        emergency_contact: data.emergency_contact,
+        gender: data.gender,
+        age: data.age,
+        birth: data.birth,     // "YYYY-MM-DD" の文字列で保存
+        address: data.address || null,
+        job: data.job || null,
+        status: data.status,
+        notes: data.notes || null,
+        beacon_id: data.beacon_id,
+        created_at: serverTimestamp()
+    };
+
+    await setDoc(userRef, firestoreData, { merge: true });
 }
 
 
