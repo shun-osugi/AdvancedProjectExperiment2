@@ -13,11 +13,12 @@
 
 body {
     margin: 0;
-    /* ブラウザ標準のマージンをリセット */
-    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* システムフォントに統一 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background-color: var(--bg-light);
     color: var(--text-color);
     line-height: 1.6;
+    padding: 20px;
 }
 
 /* 共通ヘッダー (index.html用) */
@@ -365,12 +366,7 @@ nav.main-navigation a small {
     /* 上下に余白 */
 }
 
-body {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-    padding: 20px;
-}
+
 
 .container {
     max-width: 600px;

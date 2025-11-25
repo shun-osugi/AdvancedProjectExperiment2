@@ -2,31 +2,35 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <!--ページをデバイスの幅に合わせる-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>安否確認検索</title>
     
+    <!--search.css読み込み-->
     <link rel="stylesheet" href="static/search.css"> 
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    
 </head>
 <body>
 
+    <!--安否確認検索欄-->
     <main class="content-area">
         
         <a href="/" class="back-link">＜ トップに戻る</a>
         
+        <!--検索フォーム全体-->
         <div class="search-container">
             <h2>安否確認検索</h2>
             <p class="description">名前または User ID で他のユーザーの安否状況を検索できます。</p>
 
             <div class="tab-navigation">
+                <!--初期状態でactive-->
                 <button class="tab-item active" data-tab="name">名前で検索</button>
                 <button class="tab-item" data-tab="userid">User ID で検索</button>
             </div>
 
             <div class="tab-content-container">
+                <!--名前検索フォーム-->
                 <div id="name-content" class="tab-content active">
                     <form id="name-search-form" onsubmit="return false;">
                         <label for="name-input">氏名またはカナ</label>
@@ -34,6 +38,7 @@
                     </form>
                 </div>
                 
+                <!--User ID検索フォーム-->
                 <div id="userid-content" class="tab-content">
                     <form id="userid-search-form" onsubmit="return false;">
                         <label for="userid-input">User ID</label>
@@ -42,8 +47,10 @@
                 </div>
             </div>
             
+            <!--検索実行ボタン-->
             <button id="search-button" class="search-button">🔍 検索</button>
 
+            <!--検索に関する説明文表示-->
             <div class="hints-section">
                 <strong>検索のヒント</strong>
                 <ul>
@@ -53,8 +60,11 @@
                 </ul>
             </div>
 
-        </div> <div id="results-container" class="results-container">
-            </div>
+        </div>
+        
+        <!--Javascriptにより挿入される空のコンテナ-->
+        <div id="results-container" class="results-container">
+        </div>
 
     </main>
     
