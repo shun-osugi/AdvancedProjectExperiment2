@@ -59,7 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
             //    showError(result, "エラー：" + (json.error || "不明なエラー"));
             //}
             //
-            window.location.href = `/registration-complete?user_id=${data.user_id}`;
+            // Firestore 保存成功後
+            window.location.href = `/registration-complete?user_id=${encodeURIComponent(userId)}`;
+
 
         } catch (err) {
             console.error(err);

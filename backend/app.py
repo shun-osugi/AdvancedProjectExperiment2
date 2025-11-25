@@ -189,7 +189,8 @@ def register_page_no_id():
 
 @app.route("/registration-complete")
 def registration_complete():
-    return render_template("registration-complete.html")
+    user_id = request.args.get("user_id")
+    return render_template("registration-complete.html", user_id=user_id)
 
 
 # Webアプリのフロントエンド表示（URL識別子を含む）
