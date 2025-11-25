@@ -133,6 +133,50 @@ function validate(data) {
     return null; // 問題なし
 }
 
+
+async function saveUserToFirestore(data) {
+    console.log("Firestore 保存開始");
+
+    const usersColRef = collection(db, "users");
+    const userRef = doc(usersColRef);
+    const userID = userRef.id;
+
+    console.log("生成された userID =", userID);
+
+    const firestoreData = {
+        user_id: userID,
+        shelter_id: data.shelter_id || null,
+        last_name: data.last_name,
+        first_name: data.first_name,
+        last_name_kana: data.last_name_kana,
+        first_name_kana: data.first_name_kana,
+        email: data.email || null,
+        mobile_phone: data.mobile_phone,
+        emergency_contact: data.emergency_contact,
+        gender: data.gender,
+        age: data.age,
+        birth: data.birth,
+        address: data.address || null,
+        job: data.job || null,
+        status: data.status,
+        notes: data.notes || null,
+        beacon_id: data.beacon_id,
+        created_at: serverTimestamp()
+    };
+
+    try {
+        await setDoc(userRef, firestoreData);
+        console.log("Firestore 書き込み成功");
+    } catch (err) {
+        console.error("Firestore 書き込み失敗:", err);
+        alert("Firestore 書き込みでエラーが発生しました: " + err.message);
+        throw err;
+    }
+
+    return userID;
+}
+
+/*
 // ===============================
 // Firestore への保存
 // ===============================
@@ -169,7 +213,7 @@ async function saveUserToFirestore(data) {
   // この docRef.id が「一意な user_id」として使える
     return userID;
 }
-
+*/
 
 // ===============================
 // 4. メッセージ表示まわり
