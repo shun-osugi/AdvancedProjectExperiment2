@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             
-            await saveUserToFirestore(data);
+            const userID = await saveUserToFirestore(data);
             
             //const res = await submitToServer(data);
             //const json = await res.json();
@@ -78,9 +78,6 @@ function collectFormData(form) {
 
     // 数値に変換するフィールド
     if (data.age) data.age = Number(data.age);
-
-    // Firestore に入れる際は user_id を beacon_id と同じにする
-    data.user_id = data.beacon_id;
 
     // 生年月日が空なら null に
     data.birth = data.birth || null;
@@ -139,10 +136,13 @@ function validate(data) {
 // ===============================
 async function saveUserToFirestore(data) {
     // user_id をドキュメントIDに使う例
-    const userRef = doc(collection(db, "users"), data.user_id);
+    const usersColRef = collection(db, "users");
+    const userRef = doc(usersColRef);
+    const userID = userRef.id;
 
     // Firestore に入れたくない項目があればここで削る
     const firestoreData = {
+        user_id: userID,
         shelter_id: data.shelter_id || null,
         last_name: data.last_name,
         first_name: data.first_name,
@@ -162,7 +162,10 @@ async function saveUserToFirestore(data) {
         created_at: serverTimestamp()
     };
 
-    await setDoc(userRef, firestoreData, { merge: true });
+    await setDoc(userRef, firestoreData);
+
+  // この docRef.id が「一意な user_id」として使える
+    return userID;
 }
 
 
