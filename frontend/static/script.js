@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
             //}
             //
             // Firestore 保存成功後
-            window.location.href = `/registration-complete?user_id=${encodeURIComponent(userId)}`;
+            window.location.href = `/registration-complete?user_id=${encodeURIComponent(userID)}`;
 
 
         } catch (err) {
