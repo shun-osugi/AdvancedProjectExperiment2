@@ -3,9 +3,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     // URLから shelter_id を取得して hidden フィールドにセットする処理
     const urlPath = window.location.pathname;
-    // パスが /register/S1 のようになっている場合、S1を取り出す
     const pathParts = urlPath.split('/');
-    // "register" の後ろにある部分を取得
+
     if (pathParts.length > 2 && pathParts[1] === 'register') {
         const shelterIdFromUrl = pathParts[2];
         const shelterInput = document.getElementById("shelter-id");
@@ -22,6 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // ▼ 追加: 送信ボタンを取得し、連打できないように無効化(disabled)する
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = "送信中..."; // (任意) ボタンの文字を変える
+
         clearMessage(result);
 
         // 1. フォームデータの取得
@@ -31,6 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const validationError = validate(data);
         if (validationError) {
             showError(result, validationError);
+            // ▼ エラー時はボタンを再度押せるように戻す
+            submitBtn.disabled = false;
+            submitBtn.textContent = "登録する";
             return;
         }
 
@@ -44,6 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (err) {
             console.error(err);
             showError(result, "登録中にエラーが発生しました: " + err.message);
+            // ▼ 通信エラー時もボタンを再度押せるように戻す
+            submitBtn.disabled = false;
+            submitBtn.textContent = "登録する";
         }
     });
 });
@@ -64,7 +74,7 @@ function collectFormData(form) {
 }
 
 // ===============================
-// バックエンドAPIへの送信 (変更点)
+// バックエンドAPIへの送信
 // ===============================
 async function sendToBackend(data) {
     console.log("サーバーへ送信中...", data);
@@ -88,7 +98,7 @@ async function sendToBackend(data) {
 }
 
 // ===============================
-// バリデーション (既存のまま)
+// バリデーション
 // ===============================
 function validate(data) {
     const requiredFields = {
@@ -121,7 +131,7 @@ function validate(data) {
 // メッセージ表示
 // ===============================
 function showError(target, msg) {
-    target.style.color = "#d9534f";
+    target.style.color = "#d9534f"; // 赤色
     target.textContent = msg;
 }
 
