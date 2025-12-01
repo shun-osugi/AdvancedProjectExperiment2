@@ -1,43 +1,33 @@
-// ===============================
-// 初期処理
-// ===============================
-
-// ===============================
-// Firebase / Firestore の設定
-// ===============================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-    getFirestore,
-    collection,
-    doc,
-    setDoc,
-    serverTimestamp,
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-// ★ここを自分の firebaseConfig に置き換える
-const firebaseConfig = {
-    apiKey: "AIzaSyCrNWrnm1XFc4PrUS8uO26kTZpjmTwEXaw",
-    authDomain: "advancedprojectexperiment2.firebaseapp.com",
-    projectId: "advancedprojectexperiment2",
-    storageBucket: "advancedprojectexperiment2.firebasestorage.app",
-    messagingSenderId: "1053843660005",
-    appId: "1:1053843660005:web:b2444dc5715d318fa9c80c"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// static/script.js
 
 document.addEventListener("DOMContentLoaded", () => {
+    // URLから shelter_id を取得して hidden フィールドにセットする処理
+    const urlPath = window.location.pathname;
+    // パスが /register/S1 のようになっている場合、S1を取り出す
+    const pathParts = urlPath.split('/');
+    // "register" の後ろにある部分を取得
+    if (pathParts.length > 2 && pathParts[1] === 'register') {
+        const shelterIdFromUrl = pathParts[2];
+        const shelterInput = document.getElementById("shelter-id");
+        if (shelterInput && shelterIdFromUrl) {
+            shelterInput.value = shelterIdFromUrl;
+        }
+    }
+
     const form = document.getElementById("registration-form");
     const result = document.getElementById("result-message");
 
+    if (!form) return;
+
     form.addEventListener("submit", async (e) => {
-        e.preventDefault(); // ← ここで「通常のフォーム送信」を止めている
+        e.preventDefault();
 
         clearMessage(result);
 
+        // 1. フォームデータの取得
         const data = collectFormData(form);
 
+        // 2. バリデーション
         const validationError = validate(data);
         if (validationError) {
             showError(result, validationError);
@@ -45,51 +35,60 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            
-            const userID = await saveUserToFirestore(data);
-            
-            //const res = await submitToServer(data);
-            //const json = await res.json();
+            // 3. サーバーAPIへ送信 (Firebase直接ではなくFlask経由)
+            const userID = await sendToBackend(data);
 
-            //if (res.ok) {
-                // 成功したら register_complete.html に遷移
-                // Flask のテンプレートなら `"/register_complete"` にしてもOK
-            //    window.location.href = `/registration-complete?user_id=${data.user_id}`;
-            //} else {
-            //    showError(result, "エラー：" + (json.error || "不明なエラー"));
-            //}
-            //
-            // Firestore 保存成功後
+            // 4. 完了画面へ遷移
             window.location.href = `/registration-complete?user_id=${encodeURIComponent(userID)}`;
-
 
         } catch (err) {
             console.error(err);
-            showError(result, "登録中にエラーが発生しました");
+            showError(result, "登録中にエラーが発生しました: " + err.message);
         }
     });
 });
 
-
 // ===============================
-// 1. フォーム入力値収集
+// フォームデータ収集
 // ===============================
 function collectFormData(form) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    // 数値に変換するフィールド
+    // 数値変換
     if (data.age) data.age = Number(data.age);
-
-    // 生年月日が空なら null に
-    data.birth = data.birth || null;
+    // 空文字対応
+    if (!data.birth) data.birth = null;
 
     return data;
 }
 
+// ===============================
+// バックエンドAPIへの送信 (変更点)
+// ===============================
+async function sendToBackend(data) {
+    console.log("サーバーへ送信中...", data);
+
+    const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    const resJson = await response.json();
+
+    if (!response.ok) {
+        throw new Error(resJson.error || "サーバーエラーが発生しました");
+    }
+
+    // 成功したら user_id を返す
+    return resJson.user_id;
+}
 
 // ===============================
-// 2. バリデーション
+// バリデーション (既存のまま)
 // ===============================
 function validate(data) {
     const requiredFields = {
@@ -101,130 +100,28 @@ function validate(data) {
         emergency_contact: "緊急連絡先",
         gender: "性別",
         age: "年齢",
-        birth: "生年月日",
         status: "避難ステータス",
         beacon_id: "ビーコンID"
     };
 
     for (const key in requiredFields) {
-        if (!data[key] || data[key].trim() === "") {
+        if (!data[key] || (typeof data[key] === 'string' && data[key].trim() === "")) {
             return `${requiredFields[key]}は必須入力です`;
         }
     }
 
-    // 電話番号チェック（かなりゆるめ）
-    if (!/^[0-9\-]+$/.test(data.mobile_phone)) {
-        return "携帯電話番号の形式が正しくありません";
-    }
-    if (!/^[0-9\-]+$/.test(data.emergency_contact)) {
-        return "緊急連絡先の形式が正しくありません";
-    }
+    if (!/^[0-9\-]+$/.test(data.mobile_phone)) return "携帯電話番号の形式が正しくありません";
+    if (!/^[0-9\-]+$/.test(data.emergency_contact)) return "緊急連絡先の形式が正しくありません";
+    if (isNaN(data.age) || data.age < 0 || data.age > 120) return "年齢の値が不正です";
 
-    // 年齢チェック
-    if (isNaN(data.age) || data.age < 0 || data.age > 120) {
-        return "年齢の値が不正です";
-    }
-
-    // 生年月日の形式チェック（YYYY-MM-DD）
-    if (data.birth && !/^\d{4}-\d{2}-\d{2}$/.test(data.birth)) {
-        return "生年月日の形式は YYYY-MM-DD です";
-    }
-
-    return null; // 問題なし
+    return null;
 }
 
-
-async function saveUserToFirestore(data) {
-    console.log("Firestore 保存開始");
-
-    const usersColRef = collection(db, "users");
-    const userRef = doc(usersColRef);
-    const userID = userRef.id;
-
-    console.log("生成された userID =", userID);
-
-    const firestoreData = {
-        user_id: userID,
-        shelter_id: data.shelter_id || null,
-        last_name: data.last_name,
-        first_name: data.first_name,
-        last_name_kana: data.last_name_kana,
-        first_name_kana: data.first_name_kana,
-        email: data.email || null,
-        mobile_phone: data.mobile_phone,
-        emergency_contact: data.emergency_contact,
-        gender: data.gender,
-        age: data.age,
-        birth: data.birth,
-        address: data.address || null,
-        job: data.job || null,
-        status: data.status,
-        notes: data.notes || null,
-        beacon_id: data.beacon_id,
-        created_at: serverTimestamp()
-    };
-
-    try {
-        await setDoc(userRef, firestoreData);
-        console.log("Firestore 書き込み成功");
-    } catch (err) {
-        console.error("Firestore 書き込み失敗:", err);
-        alert("Firestore 書き込みでエラーが発生しました: " + err.message);
-        throw err;
-    }
-
-    return userID;
-}
-
-/*
 // ===============================
-// Firestore への保存
-// ===============================
-async function saveUserToFirestore(data) {
-    // user_id をドキュメントIDに使う例
-    const usersColRef = collection(db, "users");
-    const userRef = doc(usersColRef);
-    const userID = userRef.id;
-
-    // Firestore に入れたくない項目があればここで削る
-    const firestoreData = {
-        user_id: userID,
-        shelter_id: data.shelter_id || null,
-        last_name: data.last_name,
-        first_name: data.first_name,
-        last_name_kana: data.last_name_kana,
-        first_name_kana: data.first_name_kana,
-        email: data.email || null,
-        mobile_phone: data.mobile_phone,
-        emergency_contact: data.emergency_contact,
-        gender: data.gender,
-        age: data.age,
-        birth: data.birth,     // "YYYY-MM-DD" の文字列で保存
-        address: data.address || null,
-        job: data.job || null,
-        status: data.status,
-        notes: data.notes || null,
-        beacon_id: data.beacon_id,
-        created_at: serverTimestamp()
-    };
-
-    await setDoc(userRef, firestoreData);
-
-  // この docRef.id が「一意な user_id」として使える
-    return userID;
-}
-*/
-
-// ===============================
-// 4. メッセージ表示まわり
+// メッセージ表示
 // ===============================
 function showError(target, msg) {
-    target.style.color = "red";
-    target.textContent = msg;
-}
-
-function showSuccess(target, msg) {
-    target.style.color = "green";
+    target.style.color = "#d9534f";
     target.textContent = msg;
 }
 

@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 import math
+import uuid
 
 load_dotenv()
 
@@ -23,30 +24,6 @@ db = firestore.client()
 
 
 app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
-
-'''''
-# (テスト) Firestoreへのデータ追加
-@app.route("/add")
-def add_data():
-    try:
-        doc_ref = db.collection("users").document("alovelace")
-        doc_ref.set({"first": "Ada", "last": "Lovelace", "born": 1815})
-        return jsonify({"success": True, "message": "データを追加しました"}), 200
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
-
-
-# (テスト) Firestoreからのデータ取得
-@app.route("/get")
-def get_data():
-    try:
-        users_ref = db.collection("users")
-        docs = users_ref.stream()
-        results = [doc.to_dict() for doc in docs]  # リスト内包表記で簡潔に
-        return jsonify({"success": True, "data": results}), 200
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
-'''
 
 # ラズパイからの検知データを受け付けるAPI
 @app.route("/api/detect_beacon", methods=["POST"])
@@ -163,7 +140,7 @@ def get_nearby_shelters():
         return jsonify({"error": str(e)}), 500
 
 
-# 安否確認登録API
+# 安否確認検索API
 @app.route("/api/search", methods=["GET"])
 def search_user():
     try:
@@ -246,8 +223,47 @@ def search_user():
         print(f"Error in search: {e}")
         return jsonify({"error": str(e)}), 500
 
-# --- Webアプリのフロントエンド表示 ---
+# 安否確認登録API
+@app.route("/api/register", methods=["POST"])
+def register_user():
+    try:
+        data = request.json
+        
+        user_id = str(uuid.uuid4())
 
+        # 修正: キー名を検索API(api/search)の期待する "last", "first" に合わせる
+        doc_data = {
+            "user_id": user_id,
+            "shelter_id": data.get("shelter_id"),
+            # HTMLの name="last_name" から受け取るが、DBには "last" で保存
+            "last": data.get("last_name"), 
+            "first": data.get("first_name"),
+            "last_name_kana": data.get("last_name_kana"),
+            "first_name_kana": data.get("first_name_kana"),
+            "email": data.get("email"),
+            "mobile_phone": data.get("mobile_phone"),
+            "emergency_contact": data.get("emergency_contact"),
+            "gender": data.get("gender"),
+            "age": int(data.get("age")) if data.get("age") else None,
+            "birth": data.get("birth"),
+            "address": data.get("address"),
+            "job": data.get("job"),
+            "status": data.get("status"),
+            "notes": data.get("notes"),
+            "beacon_id": data.get("beacon_id"),
+            "created_at": firestore.SERVER_TIMESTAMP,
+            "updated_at": firestore.SERVER_TIMESTAMP
+        }
+
+        db.collection("users").document(user_id).set(doc_data)
+
+        return jsonify({"status": "success", "user_id": user_id}), 201
+
+    except Exception as e:
+        print(f"Register Error: {e}")
+        return jsonify({"error": str(e)}), 500
+    
+# --- Webアプリのフロントエンド表示 ---
 @app.route("/")
 def index_page():
     """トップページ (index.html) を表示"""
@@ -280,7 +296,7 @@ def registration_complete():
 @app.route("/register/<shelter_id>")
 def register_page(shelter_id):
     # index.htmlをレンダリングし、shelter_idをJavaScriptに渡す
-    return render_template("registration-complete.html", shelter_id=shelter_id)
+    return render_template("register.html", shelter_id=shelter_id)
 
 
 if __name__ == "__main__":
