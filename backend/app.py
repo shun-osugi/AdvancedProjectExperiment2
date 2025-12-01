@@ -25,6 +25,33 @@ db = firestore.client()
 
 app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend")
 
+# 避難所の人数を集計・更新するヘルパー関数
+def update_shelter_count(shelter_id):
+    """
+    指定された避難所の避難者数(status='evacuated')を再集計し、
+    sheltersコレクションのcurrent_countを更新する
+    """
+    if not shelter_id:
+        return
+
+    try:
+        users_ref = db.collection("users")
+        # shelter_id が一致し、かつ status が 'evacuated' (避難済み) のユーザーを検索
+        query = users_ref.where("shelter_id", "==", shelter_id).where("status", "==", "evacuated")
+        
+        # 件数を取得 (streamで全件取得してカウント)
+        docs = list(query.stream())
+        count = len(docs)
+        
+        # sheltersコレクションを更新
+        shelter_ref = db.collection("shelters").document(shelter_id)
+        if shelter_ref.get().exists:
+            shelter_ref.update({"current_count": count})
+            print(f"Updated shelter {shelter_id} count to {count}")
+            
+    except Exception as e:
+        print(f"Error updating shelter count: {e}")
+
 # ラズパイからの検知データを受け付けるAPI
 @app.route("/api/detect_beacon", methods=["POST"])
 def receive_beacon_data():
@@ -228,7 +255,7 @@ def search_user():
 def register_user():
     try:
         data = request.json
-        
+        shelter_id = data.get("shelter_id")
         user_id = str(uuid.uuid4())
 
         # 修正: キー名を検索API(api/search)の期待する "last", "first" に合わせる
@@ -256,6 +283,9 @@ def register_user():
         }
 
         db.collection("users").document(user_id).set(doc_data)
+        # 避難所の人数を更新
+        if shelter_id:
+            update_shelter_count(shelter_id)
 
         return jsonify({"status": "success", "user_id": user_id}), 201
 
