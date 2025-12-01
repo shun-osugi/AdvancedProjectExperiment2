@@ -22,7 +22,6 @@ function getCurrentLocation() {
         (error) => {
             console.error("位置情報エラー:", error);
             // エラー時はデフォルト（例: 名古屋市役所付近）またはエラー表示
-            // 今回はエラーメッセージを表示
             container.innerHTML = '<p class="error-msg">位置情報の取得に失敗しました。<br>設定を確認してください。</p>';
         }
     );
@@ -68,7 +67,11 @@ function renderShelters(shelters, container) {
         card.className = 'shelter-card';
 
         // Google Mapsへのリンク生成
-        const mapLink = `https://www.google.com/maps/search/?api=1&query=${shelter.lat},${shelter.lng}`;
+        const mapLink = `http://maps.google.com/maps?q=${shelter.lat},${shelter.lng}`;
+
+        // 避難所IDを含む登録ページへのリンクを生成
+        // IDが不明な場合のフォールバックも考慮
+        const registerLink = shelter.shelter_id ? `/register/${shelter.shelter_id}` : '/register';
 
         card.innerHTML = `
             <div class="card-header">
@@ -90,7 +93,7 @@ function renderShelters(shelters, container) {
                 </div>
 
                 <a href="${mapLink}" target="_blank" class="map-btn">地図で見る</a>
-                <a href="/register" class="action-btn">ここに避難登録する</a>
+                <a href="${registerLink}" class="action-btn">ここに避難登録する</a>
             </div>
         `;
 
@@ -100,11 +103,6 @@ function renderShelters(shelters, container) {
 
 // 4. 混雑率からラベルと色クラスを判定するヘルパー関数
 function getStatusInfo(ratio) {
-    // HTMLの凡例に合わせて判定
-    // 95%以上: 満員 (red)
-    // 70%以上: 避難 (yellow) - ※ここでは「やや混雑」等の表現が良いですが、HTMLに合わせて調整
-    // 70%未満: 空きあり (green)
-
     if (ratio >= 0.95) {
         return { label: '満員', className: 'status-red' };
     } else if (ratio >= 0.70) {

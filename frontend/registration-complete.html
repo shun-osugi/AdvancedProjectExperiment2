@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>登録完了</title>
   <link rel="stylesheet" href="/static/registration-complete.css" />
 </head>
+
 <body>
   <main class="page" role="main">
     <div class="wrap" aria-live="polite">
@@ -13,8 +15,9 @@
         <div class="center" aria-hidden="true">
           <div class="icon-check">
             <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" fill="currentColor" opacity=".12"/>
-              <path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="10" fill="currentColor" opacity=".12" />
+              <path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </div>
         </div>
@@ -28,10 +31,11 @@
         <div class="idbox" aria-describedby="id-note">
           <div class="label">あなたの <strong>User ID</strong></div>
           <div class="idrow">
-            <div class="idvalue" id="userId" aria-live="polite">UID-8VARXKK86</div>
+            <div class="idvalue" id="userId" aria-live="polite">{{ user_id }}</div>
             <button class="btn btn-copy" id="copyBtn" type="button" aria-label="User IDをコピー">
               <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="currentColor" d="M16 1H8a2 2 0 0 0-2 2v2H5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7l-3-3zm-2 2 3 3h-3V3zM5 7h9v11H5V7z"/>
+                <path fill="currentColor"
+                  d="M16 1H8a2 2 0 0 0-2 2v2H5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7l-3-3zm-2 2 3 3h-3V3zM5 7h9v11H5V7z" />
               </svg>
               コピー
             </button>
@@ -59,4 +63,5 @@
 
   <script src="/static/registration-complete.js"></script>
 </body>
+
 </html>
