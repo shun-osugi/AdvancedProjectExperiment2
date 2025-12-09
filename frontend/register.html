@@ -24,9 +24,14 @@
             </p>
 
             <form id="registration-form">
-
-                <input type="hidden" id="shelter-id" name="shelter_id" value="{{ shelter_id if shelter_id else '' }}">
-
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="shelter-id">避難所 (避難している場合)</label>
+                        <select id="shelter-id" name="shelter_id">
+                            <option value="">選択してください (避難所なし / 自宅避難など)</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="last-name">姓 <span class="required-mark">*</span></label>

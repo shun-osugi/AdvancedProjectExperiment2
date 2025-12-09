@@ -293,6 +293,26 @@ def register_user():
         print(f"Register Error: {e}")
         return jsonify({"error": str(e)}), 500
     
+# 全避難所のリスト（名前とID）を返すAPI
+@app.route("/api/shelters/all", methods=["GET"])
+def get_all_shelters():
+    try:
+        docs = db.collection("shelters").stream()
+        shelters = []
+        for doc in docs:
+            data = doc.to_dict()
+            shelters.append({
+                "shelter_id": data.get("shelter_id"),
+                "name": data.get("name")
+            })
+        
+        # ID順に並び替え (S1, S2... という文字列順になります)
+        shelters.sort(key=lambda x: x["shelter_id"])
+        
+        return jsonify(shelters), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # --- Webアプリのフロントエンド表示 ---
 @app.route("/")
 def index_page():

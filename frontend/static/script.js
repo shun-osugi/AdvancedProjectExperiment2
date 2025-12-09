@@ -1,18 +1,49 @@
 // static/script.js
 
-document.addEventListener("DOMContentLoaded", () => {
-    // URLから shelter_id を取得して hidden フィールドにセットする処理
+document.addEventListener("DOMContentLoaded", async () => {
+
+    // ---------------------------------------------------
+    // 1. 避難所リストを取得してプルダウンを作成する処理
+    // ---------------------------------------------------
+    const shelterSelect = document.getElementById("shelter-id");
+
+    // URLから shelter_id を取得しておく
     const urlPath = window.location.pathname;
     const pathParts = urlPath.split('/');
+    let targetShelterId = null;
 
     if (pathParts.length > 2 && pathParts[1] === 'register') {
-        const shelterIdFromUrl = pathParts[2];
-        const shelterInput = document.getElementById("shelter-id");
-        if (shelterInput && shelterIdFromUrl) {
-            shelterInput.value = shelterIdFromUrl;
+        targetShelterId = pathParts[2];
+    }
+
+    if (shelterSelect) {
+        try {
+            // APIから全避難所リストを取得
+            const res = await fetch("/api/shelters/all");
+            if (res.ok) {
+                const shelters = await res.json();
+
+                // プルダウンの選択肢を作成
+                shelters.forEach(s => {
+                    const option = document.createElement("option");
+                    option.value = s.shelter_id;
+                    option.textContent = `${s.name}`;
+                    shelterSelect.appendChild(option);
+                });
+
+                // リスト生成後に、URLで指定されたIDがあれば自動選択する
+                if (targetShelterId) {
+                    shelterSelect.value = targetShelterId;
+                }
+            }
+        } catch (e) {
+            console.error("避難所リストの取得に失敗しました", e);
         }
     }
 
+    // ---------------------------------------------------
+    // 2. フォーム送信処理
+    // ---------------------------------------------------
     const form = document.getElementById("registration-form");
     const result = document.getElementById("result-message");
 
@@ -21,37 +52,37 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // ▼ 追加: 送信ボタンを取得し、連打できないように無効化(disabled)する
+        // ▼ 送信ボタンを取得し、連打できないように無効化(disabled)する
         const submitBtn = form.querySelector('button[type="submit"]');
         submitBtn.disabled = true;
-        submitBtn.textContent = "送信中..."; // (任意) ボタンの文字を変える
+        submitBtn.textContent = "送信中...";
 
         clearMessage(result);
 
-        // 1. フォームデータの取得
+        // フォームデータの取得
         const data = collectFormData(form);
 
-        // 2. バリデーション
+        // バリデーション
         const validationError = validate(data);
         if (validationError) {
             showError(result, validationError);
-            // ▼ エラー時はボタンを再度押せるように戻す
+            // エラー時はボタンを再度押せるように戻す
             submitBtn.disabled = false;
             submitBtn.textContent = "登録する";
             return;
         }
 
         try {
-            // 3. サーバーAPIへ送信 (Firebase直接ではなくFlask経由)
+            // サーバーAPIへ送信
             const userID = await sendToBackend(data);
 
-            // 4. 完了画面へ遷移
+            // 完了画面へ遷移
             window.location.href = `/registration-complete?user_id=${encodeURIComponent(userID)}`;
 
         } catch (err) {
             console.error(err);
             showError(result, "登録中にエラーが発生しました: " + err.message);
-            // ▼ 通信エラー時もボタンを再度押せるように戻す
+            // 通信エラー時もボタンを再度押せるように戻す
             submitBtn.disabled = false;
             submitBtn.textContent = "登録する";
         }
@@ -113,6 +144,9 @@ function validate(data) {
         status: "避難ステータス",
         beacon_id: "ビーコンID"
     };
+
+    // 避難所選択のチェック（ステータスが避難済みなのに避難所が未選択の場合など）
+    // 必要であればここに追加できますが、今回は必須入力チェックのみとします
 
     for (const key in requiredFields) {
         if (!data[key] || (typeof data[key] === 'string' && data[key].trim() === "")) {
